@@ -1,0 +1,53 @@
+#!/bin/sh
+
+if [ $# -eq 0 ];then
+    echo -n "Project name: "
+    read project
+elif [ $# -eq 1 ];then
+    project=$1
+else
+    echo "Wrong argument!"
+fi
+
+#echo $project
+
+if [ -e $project ]; then
+    echo "Already exist!"
+    exit 1
+fi
+
+echo "Creating project folder..."
+#mkdir -p $project/src
+#mkdir $project
+mkdir -p $project/build
+
+#main_file=$project".cpp"
+#main_file="src/main.cpp"
+main_file="main.cpp"
+
+echo "Creating CMakeLists.txt..."
+echo "cmake_minimum_required(VERSION 3.16)\n" > $project/CMakeLists.txt
+echo "set(CMAKE_CXX_FLAGS \"-Wall -Wextra -W\")" >> $project/CMakeLists.txt
+echo "set(CMAKE_CXX_FLAGS_DEBUG \"-g\")" >>  $project/CMakeLists.txt
+echo "set(CMAKE_CXX_FLAGS_RELEASE \"-O3 -s\")\n" >> $project/CMakeLists.txt
+echo "project (" >> $project/CMakeLists.txt
+echo "    "$project >> $project/CMakeLists.txt
+echo "    VERSION 0.1" >> $project/CMakeLists.txt
+echo "    DESCRIPTION" $project >> $project/CMakeLists.txt
+echo "    LANGUAGES CXX)\n" >> $project/CMakeLists.txt
+echo "add_executable("$project >> $project/CMakeLists.txt
+echo "    "$main_file >> $project/CMakeLists.txt
+echo "    )" >> $project/CMakeLists.txt
+
+echo "Creating "$main_file"..."
+echo "int main() {" > $project/$main_file
+echo "}" >> $project/$main_file
+
+cmake -S "./"$project -DCMAKE_EXPORT_COMPILE_COMMANDS=1 -DCMAKE_BUILD_TYPE=Release -B "./"$project"/build/release"
+cmake -S "./"$project -DCMAKE_EXPORT_COMPILE_COMMANDS=1 -DCMAKE_BUILD_TYPE=Debug -B "./"$project"/build/debug"
+
+ln -s build/debug/compile_commands.json .
+
+echo "exec ./"$project > $project/build/debug/run.sh
+chmod 755 $project/build/debug/run.sh
+
