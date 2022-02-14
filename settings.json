@@ -36,6 +36,7 @@
     "copyFormatting": "none",
     "copyOnSelect": true,
     "defaultProfile": "{07b52e3e-de2c-5db4-bd2d-ba144ed6c273}",
+    "initialCols": 145,
     "initialRows": 40,
     "multiLinePasteWarning": false,
     "profiles": 

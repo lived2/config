@@ -6,4 +6,5 @@ cp ~/.config/nvim/coc-settings.json $BACKUP
 cp ~/.zshrc $BACKUP
 cp ~/.tmux.conf $BACKUP
 cp -rp ~/bin/ $BACKUP
+cp /mnt/d/Install/WSL/settings.json $BACKUP
 
