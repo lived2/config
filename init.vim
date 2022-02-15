@@ -25,6 +25,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 if using_neovim
     Plug 'prabirshrestha/vim-lsp'
     Plug 'mattn/vim-lsp-settings'
+"    Plug 'WhoIsSethDaniel/toggle-lsp-diagnostics.nvim'
 endif
 Plug 'jackguo380/vim-lsp-cxx-highlight'
 
@@ -97,9 +98,10 @@ call plug#end()
 " =========================================================================
 
 " 파일 마지막 위치 기억
-if has("autocmd")
-    au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "norm g`\"" | endif
-endif
+au BufReadPost *
+	  \ if line("'\"") > 0 && line("'\"") <= line("$") |
+	  \ exe "norm g`\"" |
+	  \ endif
 
 set si " smart indent
 set cindent    " c style indent
@@ -334,8 +336,10 @@ nnoremap <silent><C-w>t :NERDTreeFocus<CR>
 "	\iLS_COLORS=$LS_COLORS:'di=1;33:ln=36'<CR>
 "	\iLS_COLORS=$LS_COLORS:'di=0;33:ln=33'<CR>
 
-nnoremap <silent> <F7> :ToggleTerminal<Enter>
-tnoremap <silent> <F7> <C-\><C-n>:ToggleTerminal<Enter>
+if using_neovim
+    nnoremap <silent> <F7> :ToggleTerminal<Enter>
+    tnoremap <silent> <F7> <C-\><C-n>:ToggleTerminal<Enter>
+endif
 
 " ------------------------------------
 " 터미널 모드 
@@ -561,6 +565,11 @@ let g:NERDTreeDirArrowCollapsible = '▾'
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
 
+if using_vim
+    let g:NERDTreeGlyphReadOnly = "RO"
+    " Fix "E121: Undefined variable: g:NERDTreeNodeDelimiter" issue
+    let g:NERDTreeNodeDelimiter = "\u00a0"
+endif
 
 " --------------------------------------------------------------------------------------------------
 " lsp config 
@@ -573,6 +582,14 @@ if using_neovim
 
     autocmd BufWritePre *.go lua vim.lsp.buf.formatting()
     autocmd BufWritePre *.go lua goimports(1000)
+
+" lsp toggle diagnostics
+"lua <<EOF
+"    require'toggle_lsp_diagnostics'.init({ start_on = false })
+"EOF
+
+"nmap <leader>tldo <Plug>(toggle-lsp-diag-off)
+"nmap <leader>tldf <Plug>(toggle-lsp-diag-on)
 endif
 
 " --------------------------------------------------------------------------------------------------
