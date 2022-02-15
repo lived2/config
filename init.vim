@@ -85,12 +85,10 @@ Plug 'davidhalter/jedi-vim'
 Plug 'nvie/vim-flake8'                " python 문법 검사 plugin
 
 " 컬러스킴(색상표) jellybeans, gruvbox
+"Plug 'morhetz/gruvbox'
+"Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
 if using_neovim
     Plug 'marko-cerovac/material.nvim'
-endif
-" Plug 'morhetz/gruvbox'
-if using_neovim
-    Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
 else
     Plug 'nanotech/jellybeans.vim'
 endif
