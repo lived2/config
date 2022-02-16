@@ -21,11 +21,12 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Or build from source code by use yarn: https://yarnpkg.com
 "Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
 
+Plug 'prabirshrestha/vim-lsp'
 " lsp
 if using_neovim
-    Plug 'prabirshrestha/vim-lsp'
+    Plug 'neovim/nvim-lsp' " nvim-lsp
     Plug 'mattn/vim-lsp-settings'
-"    Plug 'WhoIsSethDaniel/toggle-lsp-diagnostics.nvim'
+    "Plug 'WhoIsSethDaniel/toggle-lsp-diagnostics.nvim'
 endif
 Plug 'jackguo380/vim-lsp-cxx-highlight'
 
@@ -73,7 +74,6 @@ Plug 'rust-lang/rust.vim'
 " go
 if using_neovim
     "Plug 'autozimu/LanguageClient-neovim' " LanguageClient-neovim
-    "Plug 'neovim/nvim-lsp' " nvim-lsp
     Plug 'neovim/nvim-lspconfig'
     Plug 'ray-x/go.nvim'
 endif
@@ -570,6 +570,11 @@ if using_vim
     " Fix "E121: Undefined variable: g:NERDTreeNodeDelimiter" issue
     let g:NERDTreeNodeDelimiter = "\u00a0"
 endif
+
+" --------------------------------------------------------------------------------------------------
+" vim-lsp
+" --------------------------------------------------------------------------------------------------
+let g:lsp_diagnostics_enabled = 1
 
 " --------------------------------------------------------------------------------------------------
 " lsp config 
