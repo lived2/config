@@ -627,6 +627,7 @@ let g:syntastic_python_flake8_args='--ignore='    " 무시하고자 하는 error
 " C/C++ Make & Run
 au FileType c,cpp map <F5> :w<CR>:!cd build/debug ; make -j4 ; ./run.sh<CR>
 au FileType c,cpp imap <F5> <ESC>:w<CR>:!cd build/debug ; make -j4 ; ./run.sh<CR>
+autocmd FileType cpp :set bs=2 ts=2 sw=2
 
 " Go
 au FileType go map <F5> :w<CR>:!go run %<CR>
