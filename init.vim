@@ -565,11 +565,12 @@ let g:NERDTreeDirArrowCollapsible = '▾'
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
 
-if using_vim
-    let g:NERDTreeGlyphReadOnly = "RO"
+" vim에서 nerdtree가 에러날 경우 사용
+"if using_vim
+"    let g:NERDTreeGlyphReadOnly = "RO"
     " Fix "E121: Undefined variable: g:NERDTreeNodeDelimiter" issue
-    let g:NERDTreeNodeDelimiter = "\u00a0"
-endif
+"    let g:NERDTreeNodeDelimiter = "\u00a0"
+"endif
 
 " --------------------------------------------------------------------------------------------------
 " vim-lsp
