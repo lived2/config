@@ -263,12 +263,12 @@ autocmd BufWinLeave *.c,*.h mkview
 autocmd BufWinEnter *.c,*.h silent! loadview
 
 " 활성화된 버퍼만 라인 번호 표시 (단, 확장자는 .c 혹은 .h 일때만 동작)
-autocmd BufEnter * if (&filetype == 'c' || &filetype == 'cpp')
+autocmd BufEnter * if (&filetype == 'c' || &filetype == 'cpp' || &filetype == 'rust' || &filetype == 'python')
 	\| set number
 \| endif
 
 " 버퍼에서 나갈 땐 줄 번호를 지운다.
-autocmd BufLeave * if (&filetype == 'c' || &filetype == 'cpp')
+autocmd BufLeave * if (&filetype == 'c' || &filetype == 'cpp' || &filetype == 'rust' || &filetype == 'python')
 	\| set nonumber
 \| endif
 
