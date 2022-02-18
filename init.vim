@@ -82,7 +82,7 @@ Plug 'nsf/gocode'
 
 " Python
 Plug 'davidhalter/jedi-vim'
-"Plug 'hynek/vim-python-pep8-indent'   " python 자동 들여쓰기 Plugin
+Plug 'hynek/vim-python-pep8-indent'   " python 자동 들여쓰기 Plugin
 Plug 'nvie/vim-flake8'                " python 문법 검사 plugin
 
 " 컬러스킴(색상표) jellybeans, gruvbox
