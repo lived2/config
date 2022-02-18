@@ -607,6 +607,7 @@ let g:jedi#force_py_version=3           " 자동완성 3 = python3 , 2 = python2
 
 let g:syntastic_python_checkers=['flake8']        " ↓ 실행시 현재줄 주석 해제필요    
 let g:syntastic_python_flake8_args='--ignore='    " 무시하고자 하는 errorcode
+let no_flake8_maps = 1
 
 
 " --------------------------------------------------------------------------------------------------
