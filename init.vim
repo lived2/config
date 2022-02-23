@@ -152,6 +152,9 @@ set tabstop=4 " 탭으로 들여쓰기시 사용할 스페이스바 개수. (= t
 set shiftwidth=4 " <<, >> 으로 들여쓰기시 사용할 스페이스바 개수. (= sw)
 set softtabstop=4 " 스페이스바 n개를 하나의 탭으로 처리. (= sts)
 " ex) 스페이스바 4개가 연속으로 있다면 백스페이스로 스페이스바를 지우면 스페이스바 4개를 하나의 탭으로 인식해 삭제.
+"set cinoptions=p0,t0,:N,=:0
+set cinoptions=l1,b1,g0
+set cinwords=if,else,while,do,for,switch,case
 filetype indent on " indent.vim 파일에 설정된 파일 형식별 들여쓰기 적용.
 
 " =========================================================================
