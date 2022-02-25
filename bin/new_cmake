@@ -46,8 +46,10 @@ echo "}" >> $project/$main_file
 cmake -S "./"$project -DCMAKE_EXPORT_COMPILE_COMMANDS=1 -DCMAKE_BUILD_TYPE=Release -B "./"$project"/build/release"
 cmake -S "./"$project -DCMAKE_EXPORT_COMPILE_COMMANDS=1 -DCMAKE_BUILD_TYPE=Debug -B "./"$project"/build/debug"
 
-ln -s build/debug/compile_commands.json .
+cd $project
+ln -s build/debug/compile_commands.json compile_commands.json
 
-echo "exec ./"$project > $project/build/debug/run.sh
-chmod 755 $project/build/debug/run.sh
+mkdir -p ./build/debug
+echo "exec ./"$project > build/debug/run.sh
+chmod 755 build/debug/run.sh
 
