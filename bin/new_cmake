@@ -49,7 +49,7 @@ cmake -S "./"$project -DCMAKE_EXPORT_COMPILE_COMMANDS=1 -DCMAKE_BUILD_TYPE=Debug
 cd $project
 ln -s build/debug/compile_commands.json compile_commands.json
 
-mkdir -p ./build/debug
+#mkdir -p ./build/debug
 echo "exec ./"$project > build/debug/run.sh
 chmod 755 build/debug/run.sh
 
