@@ -32,7 +32,8 @@ Plug 'jackguo380/vim-lsp-cxx-highlight'
 
 if using_neovim
     " nvim-treesitter 구문 파싱 하이라이팅
-    Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+    "Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+    Plug 'nvim-treesitter/nvim-treesitter'
 
     " Terminal toggle
     Plug 'caenrique/nvim-toggle-terminal'
@@ -90,6 +91,7 @@ Plug 'nvie/vim-flake8'                " python 문법 검사 plugin
 "Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
 if using_neovim
     Plug 'marko-cerovac/material.nvim'
+    Plug 'catppuccin/nvim', {'as': 'catppuccin'}
 else
     Plug 'nanotech/jellybeans.vim'
 endif
@@ -184,10 +186,15 @@ set guicursor=a:blinkon100
 " Color scheme
 " =========================================================================
 if using_neovim
-    colorscheme material
+    "material
+    "colorscheme material
     " darker lighter oceanic palenight "deep ocean"
     "let g:material_style = "darker"
-    let g:material_style = "palenight"
+    "let g:material_style = "palenight"
+
+    "catppuccin
+    let g:catppuccin_flavour = "dusk" " dusk latte, frappe, macchiato, mocha
+    colorscheme catppuccin
 else
     colorscheme jellybeans
 endif
@@ -451,9 +458,10 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 " --------------------------------------------------------------------------------------------------
 " nvim-treesitter 설정
 " --------------------------------------------------------------------------------------------------
-if using_neovim
+if !using_neovim
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
+  -- ensure_installed = { "c", "lua", "rust" },
   ensure_installed = "maintained",
   ignore_install = { "" },
   highlight = {
