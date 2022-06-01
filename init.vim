@@ -458,11 +458,11 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 " --------------------------------------------------------------------------------------------------
 " nvim-treesitter 설정
 " --------------------------------------------------------------------------------------------------
-if !using_neovim
+if using_neovim
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
-  -- ensure_installed = { "c", "lua", "rust" },
-  ensure_installed = "maintained",
+  -- ensure_installed = "maintained",
+  ensure_installed = { "c", "lua", "rust" },
   ignore_install = { "" },
   highlight = {
     enable = true,
