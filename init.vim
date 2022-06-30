@@ -642,6 +642,7 @@ let no_flake8_maps = 1
 au FileType c,cpp map <F5> :w<CR>:!cd build/debug ; make -j4 ; ./run.sh<CR>
 au FileType c,cpp imap <F5> <ESC>:w<CR>:!cd build/debug ; make -j4 ; ./run.sh<CR>
 autocmd FileType cpp :set bs=2 ts=2 sw=2
+autocmd FileType c :set noexpandtab
 
 " Go
 au FileType go map <F5> :w<CR>:!go run %<CR>
