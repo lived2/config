@@ -5,14 +5,22 @@
   "diagnostic.warningSign": "⚠",
   "diagnostic.infoSign": "ℹ",
   "diagnostic.hintSign": "➤",
+  "diagnostic.level" : "information",
+  "diagnostic.enableMessage": "always",
+  //"diagnostic.messageTarget": "echo",
+  //"diagnostic.virtualText": true,
+  //"diagnostic.virtualTextCurrentLineOnly": true,
+  //"diagnostic.checkCurrentLine": true,
   "suggest.noselect": false,
   //"suggest.echodocSupport": true,
   "codeLens.enable": false,
   "signature.enable": true,
   "suggest.preferCompleteThanJumpPlaceholder": true,
 
+  "clangd.inlayHints.enable": false,
+
   "coc.preferences.formatOnSaveFiletypes": [
-    "cpp"
+    //"cpp"
   ],
 
   "languageserver": {

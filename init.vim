@@ -26,7 +26,7 @@ Plug 'prabirshrestha/vim-lsp'
 if using_neovim
     Plug 'neovim/nvim-lsp' " nvim-lsp
     Plug 'mattn/vim-lsp-settings'
-    "Plug 'WhoIsSethDaniel/toggle-lsp-diagnostics.nvim'
+    Plug 'WhoIsSethDaniel/toggle-lsp-diagnostics.nvim'
 endif
 Plug 'jackguo380/vim-lsp-cxx-highlight'
 
@@ -454,6 +454,25 @@ endif
 "nn xx x
 " --------------------------------------------------------------------------------------------------
 
+" setting with vim-lsp
+if using_neovim
+    if executable('ccls')
+        au User lsp_setup call lsp#register_server({
+                    \ 'name': 'ccls',
+                    \ 'cmd': {server_info->['ccls']},
+                    \ 'root_uri': {server_info->lsp#utils#path_to_uri(
+                    \   lsp#utils#find_nearest_parent_file_directory(
+                    \     lsp#utils#get_buffer_path(), ['.ccls', 'compile_commands.json', '.git/']))},
+                    \ 'initialization_options': {
+                    \   'highlight': { 'lsRanges' : v:true },
+                    \   'cache': {'directory': stdpath('cache') . '/ccls' },
+                    \ },
+                    \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp', 'cc'],
+                    \ })
+    endif
+endif
+
+
 " 커서 아래의 토큰을 강조
 autocmd CursorHold * silent call CocActionAsync('highlight')
 " --------------------------------------------------------------------------------------------------
@@ -597,7 +616,9 @@ let g:lsp_diagnostics_enabled = 0
 " lsp config 
 " --------------------------------------------------------------------------------------------------
 let g:lsp_cxx_hl_use_text_props = 1
-let g:lsp_cxx_hl_use_nvim_text_props = 1
+if using_neovim
+    let g:lsp_cxx_hl_use_nvim_text_props = 1
+endif
 
 if using_neovim
     lua require("lsp_config")
@@ -606,12 +627,19 @@ if using_neovim
     autocmd BufWritePre *.go lua goimports(1000)
 
 " lsp toggle diagnostics
-"lua <<EOF
-"    require'toggle_lsp_diagnostics'.init({ start_on = false })
-"EOF
+lua <<EOF
+    require'toggle_lsp_diagnostics'.init({ start_on = false })
+EOF
 
-"nmap <leader>tldo <Plug>(toggle-lsp-diag-off)
-"nmap <leader>tldf <Plug>(toggle-lsp-diag-on)
+nmap <leader>tlu <Plug>(toggle-lsp-diag-underline)
+nmap <leader>tls <Plug>(toggle-lsp-diag-signs)
+nmap <leader>tlv <Plug>(toggle-lsp-diag-vtext)
+nmap <leader>tlp <Plug>(toggle-lsp-diag-update_in_insert)
+
+nmap <leader>tld  <Plug>(toggle-lsp-diag)
+nmap <leader>tldd <Plug>(toggle-lsp-diag-default)
+nmap <leader>tldf <Plug>(toggle-lsp-diag-off)
+nmap <leader>tldo <Plug>(toggle-lsp-diag-on)
 endif
 
 " --------------------------------------------------------------------------------------------------
