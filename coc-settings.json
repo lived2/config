@@ -11,6 +11,10 @@
   "signature.enable": true,
   "suggest.preferCompleteThanJumpPlaceholder": true,
 
+  "coc.preferences.formatOnSaveFiletypes": [
+    "cpp"
+  ],
+
   "languageserver": {
       "golang": {
           "command": "gopls",
