@@ -144,7 +144,6 @@ set hlsearch " 검색된 결과 강조 표시. (= hls)
 set ignorecase " 검색시 대소문자를 구분하지 않음. (= ic)
 set incsearch " 검색어를 입력할 때마다 일치하는 문자열을 강조해서 표시. (= is)
 set smartcase " ignore 옵션이 켜져있더라도 검색어에 대문자가 있다면 정확히 일치하는 문자열을 찾음. (= scs)
-set nowrapscan
 set path+=**
 
 " =========================================================================
@@ -194,7 +193,8 @@ if using_neovim
     "let g:material_style = "palenight"
 
     "catppuccin
-    let g:catppuccin_flavour = "dusk" " dusk latte, frappe, macchiato, mocha
+    "let g:catppuccin_flavour = "dusk" " dusk latte, frappe, macchiato, mocha
+    "let g:catppuccin_flavour = "latte" " dusk latte, frappe, macchiato, mocha
     colorscheme catppuccin
 else
     colorscheme jellybeans
@@ -390,11 +390,11 @@ if has("nvim-0.5.0") || has("patch-8.1.1564")
 endif
 
 "<Tab> 을 눌러서 현재 지시자를 옮김.
-inoremap <silent><expr> <TAB>
-            \ pumvisible() ? "\<C-n>" :
-            \ <SID>check_back_space() ? "\<TAB>" :
-            \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+"inoremap <silent><expr> <TAB>
+"            \ pumvisible() ? "\<C-n>" :
+"            \ <SID>check_back_space() ? "\<TAB>" :
+"            \ coc#refresh()
+"inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 " <Backspace> 키가 지시자 제거, 기존 자동완성 양식 폐기
 function! s:check_back_space() abort
@@ -471,6 +471,9 @@ require'nvim-treesitter.configs'.setup {
     additional_vim_regex_highlighting = true,
   },
 }
+
+require'lspconfig'.clangd.setup{}
+
 EOF
 endif
 
@@ -593,8 +596,8 @@ let g:lsp_diagnostics_enabled = 0
 " --------------------------------------------------------------------------------------------------
 " lsp config 
 " --------------------------------------------------------------------------------------------------
-"let g:lsp_cxx_hl_use_text_props = 1
-"let g:lsp_cxx_hl_use_nvim_text_props = 1
+let g:lsp_cxx_hl_use_text_props = 1
+let g:lsp_cxx_hl_use_nvim_text_props = 1
 
 if using_neovim
     lua require("lsp_config")
