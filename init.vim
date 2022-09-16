@@ -621,7 +621,7 @@ if using_neovim
 endif
 
 if using_neovim
-    lua require("lsp_config")
+    lua require("lspconfig")
 
     autocmd BufWritePre *.go lua vim.lsp.buf.formatting()
     autocmd BufWritePre *.go lua goimports(1000)
