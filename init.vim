@@ -187,7 +187,7 @@ set guicursor=a:blinkon100
 " =========================================================================
 if using_neovim
     "material
-    "colorscheme material
+    colorscheme material
     " darker lighter oceanic palenight "deep ocean"
     "let g:material_style = "darker"
     "let g:material_style = "palenight"
@@ -195,7 +195,7 @@ if using_neovim
     "catppuccin
     "let g:catppuccin_flavour = "dusk" " dusk latte, frappe, macchiato, mocha
     "let g:catppuccin_flavour = "latte" " dusk latte, frappe, macchiato, mocha
-    colorscheme catppuccin
+    "colorscheme catppuccin
 else
     colorscheme jellybeans
 endif
