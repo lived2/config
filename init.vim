@@ -389,25 +389,36 @@ if has("nvim-0.5.0") || has("patch-8.1.1564")
   set signcolumn=number
 endif
 
-"<Tab> 을 눌러서 현재 지시자를 옮김.
-"inoremap <silent><expr> <TAB>
-"            \ pumvisible() ? "\<C-n>" :
-"            \ <SID>check_back_space() ? "\<TAB>" :
-"            \ coc#refresh()
-"inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
+" common function
 " <Backspace> 키가 지시자 제거, 기존 자동완성 양식 폐기
-function! s:check_back_space() abort
+function! CheckBackspace() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
+"<Tab> 을 눌러서 현재 지시자를 옮김.
+"inoremap <silent><expr> <TAB>
+"            \ pumvisible() ? "\<C-n>" :
+"            \ <SID>CheckBackspace() ? "\<TAB>" :
+"            \ coc#refresh()
+"inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+" 2022.10.06
+" Option 1
+"inoremap coc#pum#visible() ? coc#_select_confirm() : "<C-g>u<CR><c-r>=coc#on_enter()<CR>"
+"inoremap <silent><expr> <TAB> coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<TAB>"
+
+" Option 2
+inoremap <silent><expr> <Tab>
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ CheckBackspace() ? "\<Tab>" :
+      \ coc#refresh()
 
 " <Ctrl + Space> 를 눌러서 자동완성 적용
-if using_neovim
-  inoremap <silent><expr> <c-space> coc#refresh()
-else
-  inoremap <silent><expr> <c-@> coc#refresh()
-endif
+"if using_neovim
+"  inoremap <silent><expr> <c-space> coc#refresh()
+"else
+"  inoremap <silent><expr> <c-@> coc#refresh()
+"endif
 
 
 " --------------------------------------------------------------------------------------------------
