@@ -397,9 +397,9 @@ function! CheckBackspace() abort
 endfunction
 "<Tab> 을 눌러서 현재 지시자를 옮김.
 "inoremap <silent><expr> <TAB>
-"            \ pumvisible() ? "\<C-n>" :
-"            \ <SID>CheckBackspace() ? "\<TAB>" :
-"            \ coc#refresh()
+            \ coc#pum#visible() ? "\<C-n>" :
+            \ <SID>CheckBackspace() ? "\<TAB>" :
+            \ coc#refresh()
 "inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 " 2022.10.06
@@ -414,9 +414,14 @@ endfunction
       \ coc#refresh()
 
 " Option 3
-inoremap <silent><expr> <TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+"inoremap <silent><expr> <TAB> coc#pum#visible() ? "\<C-n>" : "\<TAB>"
+"inoremap <expr><S-TAB> coc#pum#visible() ? "\<C-p>" : "\<C-h>"
+"inoremap <silent><expr> <TAB> "\<C-n>"
+"inoremap <expr><S-TAB> "\<C-p>"
 inoremap <expr> <cr> coc#pum#visible() ? coc#_select_confirm() : "\<CR>"
+
+"inoremap <silent><expr> <tab> coc#pum#visible() ? coc#_select_confirm() : "\<C-g>u\<TAB>"
+"inoremap <silent><expr> <cr> "\<c-g>u\<CR>"
 
 " <Ctrl + Space> 를 눌러서 자동완성 적용
 "if using_neovim
@@ -634,28 +639,33 @@ let g:lsp_diagnostics_enabled = 0
 let g:lsp_cxx_hl_use_text_props = 1
 if using_neovim
     let g:lsp_cxx_hl_use_nvim_text_props = 1
-endif
 
-if using_neovim
     lua require("lspconfig")
 
-    autocmd BufWritePre *.go lua vim.lsp.buf.formatting()
-    autocmd BufWritePre *.go lua goimports(1000)
+    autocmd BufWritePre *.c lua vim.lsp.buf.format { async = true }
+    autocmd BufWritePre *.h lua vim.lsp.buf.format { async = true }
+    autocmd BufWritePre *.cpp lua vim.lsp.buf.format { async = true }
+    autocmd BufWritePre *.hpp lua vim.lsp.buf.format { async = true }
+    autocmd BufWritePre *.py lua vim.lsp.buf.format { async = true }
+
+    "autocmd BufWritePre *.go lua vim.lsp.buf.format { async = true }
+    autocmd BufWritePre *.go :silent call CocAction('runCommand', 'editor.action.organizeImport')
+    "autocmd BufWritePre *.go lua goimports(1000)
 
 " lsp toggle diagnostics
 lua <<EOF
     require'toggle_lsp_diagnostics'.init({ start_on = false })
 EOF
 
-nmap <leader>tlu <Plug>(toggle-lsp-diag-underline)
-nmap <leader>tls <Plug>(toggle-lsp-diag-signs)
-nmap <leader>tlv <Plug>(toggle-lsp-diag-vtext)
-nmap <leader>tlp <Plug>(toggle-lsp-diag-update_in_insert)
+    nmap <leader>tlu <Plug>(toggle-lsp-diag-underline)
+    nmap <leader>tls <Plug>(toggle-lsp-diag-signs)
+    nmap <leader>tlv <Plug>(toggle-lsp-diag-vtext)
+    nmap <leader>tlp <Plug>(toggle-lsp-diag-update_in_insert)
 
-nmap <leader>tld  <Plug>(toggle-lsp-diag)
-nmap <leader>tldd <Plug>(toggle-lsp-diag-default)
-nmap <leader>tldf <Plug>(toggle-lsp-diag-off)
-nmap <leader>tldo <Plug>(toggle-lsp-diag-on)
+    nmap <leader>tld  <Plug>(toggle-lsp-diag)
+    nmap <leader>tldd <Plug>(toggle-lsp-diag-default)
+    nmap <leader>tldf <Plug>(toggle-lsp-diag-off)
+    nmap <leader>tldo <Plug>(toggle-lsp-diag-on)
 endif
 
 " --------------------------------------------------------------------------------------------------
@@ -712,5 +722,3 @@ au FileType java imap <F5> <ESC>:w<CR>:!javac % ; java %<<CR>
 
 map <F9> <F5>
 imap <F9> <ESC><F5>
-
-
