@@ -491,6 +491,38 @@ if using_neovim
                     \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp', 'cc'],
                     \ })
     endif
+
+    augroup LspGo
+        au!
+        autocmd User lsp_setup call lsp#register_server({
+                    \ 'name': 'go-lang',
+                    \ 'cmd': {server_info->['gopls']},
+                    \ 'whitelist': ['go'],
+                    \ })
+        autocmd FileType go setlocal omnifunc=lsp#complete
+        "autocmd FileType go nmap <buffer> gd <plug>(lsp-definition)
+        "autocmd FileType go nmap <buffer> ,n <plug>(lsp-next-error)
+        "autocmd FileType go nmap <buffer> ,p <plug>(lsp-previous-error)
+    augroup END
+
+lua <<EOF
+  lspconfig = require "lspconfig"
+  util = require "lspconfig/util"
+
+  lspconfig.gopls.setup {
+    cmd = {"gopls", "serve"},
+    filetypes = {"go", "gomod"},
+    root_dir = util.root_pattern("go.work", "go.mod", ".git"),
+    settings = {
+      gopls = {
+        analyses = {
+          unusedparams = true,
+        },
+        staticcheck = true,
+      },
+    },
+  }
+EOF
 endif
 
 
@@ -501,18 +533,18 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 " --------------------------------------------------------------------------------------------------
 if using_neovim
 lua <<EOF
-require'nvim-treesitter.configs'.setup {
-  -- ensure_installed = "maintained",
-  ensure_installed = { "c", "lua", "rust" },
-  ignore_install = { "" },
-  highlight = {
-    enable = true,
-    disable = { "" },
-    additional_vim_regex_highlighting = true,
-  },
-}
+    require'nvim-treesitter.configs'.setup {
+        -- ensure_installed = "maintained",
+        ensure_installed = { "c", "lua", "rust" },
+        ignore_install = { "" },
+        highlight = {
+            enable = true,
+            disable = { "" },
+            additional_vim_regex_highlighting = true,
+            },
+    }
 
-require'lspconfig'.clangd.setup{}
+    require'lspconfig'.clangd.setup{}
 
 EOF
 endif
@@ -648,9 +680,26 @@ if using_neovim
     autocmd BufWritePre *.hpp lua vim.lsp.buf.format { async = true }
     autocmd BufWritePre *.py lua vim.lsp.buf.format { async = true }
 
-    "autocmd BufWritePre *.go lua vim.lsp.buf.format { async = true }
-    autocmd BufWritePre *.go :silent call CocAction('runCommand', 'editor.action.organizeImport')
+    autocmd BufWritePre *.go lua vim.lsp.buf.format { async = true }
+    "autocmd BufWritePre *.go :silent call CocAction('runCommand', 'editor.action.organizeImport')
     "autocmd BufWritePre *.go lua goimports(1000)
+
+lua <<EOF
+  function go_org_imports(wait_ms)
+    local params = vim.lsp.util.make_range_params()
+    params.context = {only = {"source.organizeImports"}}
+    local result = vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, wait_ms)
+    for cid, res in pairs(result or {}) do
+      for _, r in pairs(res.result or {}) do
+        if r.edit then
+          local enc = (vim.lsp.get_client_by_id(cid) or {}).offset_encoding or "utf-16"
+          vim.lsp.util.apply_workspace_edit(r.edit, enc)
+        end
+      end
+    end
+  end
+EOF
+    autocmd BufWritePre *.go lua go_org_imports()
 
 " lsp toggle diagnostics
 lua <<EOF
