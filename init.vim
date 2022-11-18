@@ -218,8 +218,10 @@ imap <F8> <ESC>:set invnumber<CR>
 nmap <F10> :w!<CR>
 imap <F10> <ESC>:w!<CR>
 
-nmap <F11> :q<CR>
-imap <F11> <ESC>:q<CR>
+if !using_mac
+    nmap <F11> :q<CR>
+    imap <F11> <ESC>:q<CR>
+endif
 
 nmap <F12> :qall<CR>
 imap <F12> <ESC>:qall<CR>
