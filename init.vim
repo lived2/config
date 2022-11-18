@@ -419,14 +419,9 @@ endfunction
       \ coc#refresh()
 
 " Option 3
-"inoremap <silent><expr> <TAB> coc#pum#visible() ? "\<C-n>" : "\<TAB>"
-"inoremap <expr><S-TAB> coc#pum#visible() ? "\<C-p>" : "\<C-h>"
-"inoremap <silent><expr> <TAB> "\<C-n>"
-"inoremap <expr><S-TAB> "\<C-p>"
+inoremap <silent><expr> <TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 inoremap <expr> <cr> coc#pum#visible() ? coc#_select_confirm() : "\<CR>"
-
-"inoremap <silent><expr> <tab> coc#pum#visible() ? coc#_select_confirm() : "\<C-g>u\<TAB>"
-"inoremap <silent><expr> <cr> "\<c-g>u\<CR>"
 
 " <Ctrl + Space> 를 눌러서 자동완성 적용
 "if using_neovim
