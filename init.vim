@@ -223,6 +223,10 @@ imap <F11> <ESC>:q<CR>
 nmap <F12> :qall<CR>
 imap <F12> <ESC>:qall<CR>
 
+if has('macunix')
+    vnoremap <M-c> "+y
+endif
+
 "let g:Tlist_Use_Right_Window = 1
 "nnoremap <silent> <F4> :TlistToggle<Cr>
 
