@@ -6,6 +6,7 @@
 "if has('nvim')			" nvim 을 사용 중이라면
 let using_neovim = has('nvim')
 let using_vim = !using_neovim
+let using_mac = has('macunix')
 
 if using_neovim
     call plug#begin("~/.config/nvim/plugged")
@@ -223,7 +224,7 @@ imap <F11> <ESC>:q<CR>
 nmap <F12> :qall<CR>
 imap <F12> <ESC>:qall<CR>
 
-if has('macunix')
+if using_mac
     vnoremap <M-c> "+y
 endif
 
