@@ -37,7 +37,7 @@ if using_neovim
     Plug 'nvim-treesitter/nvim-treesitter'
 
     " Terminal toggle
-    Plug 'caenrique/nvim-toggle-terminal'
+    "Plug 'caenrique/nvim-toggle-terminal'
 endif
 
 " Tagbar 코드 뷰어 창
@@ -354,10 +354,10 @@ nnoremap <silent><C-w>t :NERDTreeFocus<CR>
 "	\iLS_COLORS=$LS_COLORS:'di=1;33:ln=36'<CR>
 "	\iLS_COLORS=$LS_COLORS:'di=0;33:ln=33'<CR>
 
-if using_neovim
-    nnoremap <silent> <F7> :ToggleTerminal<Enter>
-    tnoremap <silent> <F7> <C-\><C-n>:ToggleTerminal<Enter>
-endif
+"if using_neovim
+"    nnoremap <silent> <F7> :ToggleTerminal<Enter>
+"    tnoremap <silent> <F7> <C-\><C-n>:ToggleTerminal<Enter>
+"endif
 
 " ------------------------------------
 " 터미널 모드 
