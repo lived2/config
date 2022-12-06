@@ -33,8 +33,8 @@ Plug 'jackguo380/vim-lsp-cxx-highlight'
 
 if using_neovim
     " nvim-treesitter 구문 파싱 하이라이팅
-    "Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-    Plug 'nvim-treesitter/nvim-treesitter'
+    Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+    "Plug 'nvim-treesitter/nvim-treesitter'
 
     " Terminal toggle
     "Plug 'caenrique/nvim-toggle-terminal'
@@ -42,16 +42,28 @@ endif
 
 " Tagbar 코드 뷰어 창
 " Plug 'majutsushi/tagbar'
-Plug 'preservim/tagbar'
+"Plug 'preservim/tagbar'
+
+" Vista to replace Tagbar 
+Plug 'liuchengxu/vista.vim'
 
 " NERDTree 코드 뷰어 창
-"Plug 'preservim/nerdtree'
-Plug 'scrooloose/nerdtree'
+Plug 'preservim/nerdtree'
+"Plug 'scrooloose/nerdtree'
+
+"if using_neovim 
+"    Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
+"    Plug 'linjiX/vim-defx-vista'
+"endif
 
 " 하단에 다양한 상태(몇 번째 줄, 인코딩, etc.)를
 " 표시하는 상태바 추가
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+"Plug 'vim-airline/vim-airline'
+"Plug 'vim-airline/vim-airline-themes'
+
+Plug 'itchyny/lightline.vim'
+Plug 'mengelbrecht/lightline-bufferline'
+Plug 'ryanoasis/vim-devicons'
 
 " CScope 플러그인
 Plug 'ronakg/quickr-cscope.vim'
@@ -92,10 +104,11 @@ Plug 'nvie/vim-flake8'                " python 문법 검사 plugin
 "Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
 if using_neovim
     Plug 'marko-cerovac/material.nvim'
-    Plug 'catppuccin/nvim', {'as': 'catppuccin'}
+    "Plug 'catppuccin/nvim', {'as': 'catppuccin'}
 else
     Plug 'nanotech/jellybeans.vim'
 endif
+Plug 'yunlingz/equinusocio-material.vim'
 
 call plug#end()
 " =========================================================================
@@ -124,10 +137,6 @@ set showmatch " 현재 선택된 괄호의 쌍을 표시
 set cursorline " 커서가 있는 라인을 강조 표시. (= cul)
 set ruler " 커서 위치 표시. (= ru)
 set laststatus=2 " 상태바 표시. (= ls) [0: 상태바 미표시 / 1: 2개 이상의 윈도우에서 표시 / 2: 항상 표시]
-" 상태바 커스터마이징 %<item>으로 사용하며, \는 구분자로 공백을 넣을 경우는 구분자를 넣어줘야함.
-set statusline=%F\ %y%m%r\ %=Line:\ %l/%L\ [%p%%]\ Col:%c\ Buf:%n
-hi statusline ctermfg=White ctermbg=4 cterm=none "활성화된 상태바 배경색 및 폰트색 설정
-hi statuslineNC ctermfg=White ctermbg=8 cterm=none " 윈도우가 2개 이상인 경우 비활성화된 윈도우의 배경색 및 폰트색 설정
 set mouse=a " 마우스로 스크롤 및 리사이즈 가능. [n : Normal mode / v : Visual mode / i : Insert mode / a : All modes]
 set showtabline=2
 set termguicolors
@@ -186,6 +195,7 @@ set guicursor=a:blinkon100
 " =========================================================================
 " Color scheme
 " =========================================================================
+if 1
 if using_neovim
     "material
     colorscheme material
@@ -202,10 +212,44 @@ else
 endif
 "colorscheme tokyonight
 
+else
 " =========================================================================
 " material_style
 " =========================================================================
-"
+" true colors are required for vim in terminal
+set termguicolors
+
+" use a different style
+" valid values: 'default' (default), 'darker', 'pure'
+"let g:equinusocio_material_style = 'pure'
+"let g:equinusocio_material_style = 'darker'
+
+" less bright
+" which means some colors will be modified by this formula:
+" (r, g, b) -> ( max(r - less, 0), max(g - less, 0), max(b - less, 0) )
+let g:equinusocio_material_less = 50
+
+" make vertsplit invisible (visible by default) (default 0)
+" if style == 'pure', then the vertsplit is always visible
+let g:equinusocio_material_hide_vertsplit = 1
+
+" parentheses improved (default 0)
+" enabling this option with 'luochen1990/rainbow' installed is not encouraged
+" because this option and 'luochen1990/rainbow' will registry conflicting events
+" in summary:
+" 1. no 'luochen1990/rainbow' installed, no parentheses improved: nothing to do (default 0)
+" 2. no 'luochen1990/rainbow' installed, want built-in parentheses improved: set to 1
+" 3. 'luochen1990/rainbow' installed: nothing to do (default 0)
+let g:equinusocio_material_bracket_improved = 1
+
+" use a better vertsplit char
+set fillchars+=vert:│
+
+colorscheme equinusocio_material
+
+" this theme has a buildin lightline/airline theme
+let g:airline_theme = 'equinusocio_material'
+endif
 " =========================================================================
 
 
@@ -322,7 +366,28 @@ autocmd BufLeave * if (&filetype == 'c' || &filetype == 'cpp' || &filetype == 'r
 " 명령 모드 
 " ------------------------------------
 " <F6> 을 통해 NERDTree 와 Tagbar 열기
-nnoremap <silent><F6> :NERDTreeToggle<CR><bar>:TagbarToggle<CR><bar>:wincmd p<CR>
+let g:nerdtree = 0
+let g:vistaopen = 0
+function! ToggleNERD() abort
+    if g:vistaopen == 1
+        Vista!!
+        let g:vistaopen = 0
+    endif
+    NERDTreeToggle
+    let g:nerdtree = !g:nerdtree
+endfunction
+function! ToggleVista() abort
+    if g:nerdtree == 1
+        NERDTreeToggle
+        let g:nerdtree = 0
+    endif
+    Vista!!
+    let g:vistaopen = !g:vistaopen
+endfunction
+"nnoremap <silent><F6> :NERDTreeToggle<CR><bar>:TagbarToggle<CR><bar>:wincmd p<CR>
+nnoremap <silent><F6> :call ToggleNERD()<CR>
+
+nnoremap <silent><F7> :call ToggleVista()<CR>
 
 " <Ctrl + h, l> 를 눌러서 이전, 다음 탭으로 이동
 nnoremap <silent><C-j> :tabprevious<CR>
@@ -524,6 +589,8 @@ lua <<EOF
       },
     },
   }
+
+  require'lspconfig'.clangd.setup{}
 EOF
 endif
 
@@ -533,24 +600,55 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 " --------------------------------------------------------------------------------------------------
 " nvim-treesitter 설정
 " --------------------------------------------------------------------------------------------------
+"  Known issue: Error with help command
 if using_neovim
 lua <<EOF
-    require'nvim-treesitter.configs'.setup {
-        -- ensure_installed = "maintained",
-        ensure_installed = { "c", "lua", "rust" },
-        ignore_install = { "" },
-        highlight = {
-            enable = true,
-            disable = { "" },
-            additional_vim_regex_highlighting = true,
-            },
-    }
+require'nvim-treesitter.configs'.setup {
+  -- A list of parser names, or "all"
+  ensure_installed = { "c", "lua", "rust" },
 
-    require'lspconfig'.clangd.setup{}
+  -- Install parsers synchronously (only applied to `ensure_installed`)
+  sync_install = false,
 
+  -- Automatically install missing parsers when entering buffer
+  -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
+  auto_install = true,
+
+  -- List of parsers to ignore installing (for "all")
+  ignore_install = { "javascript" },
+
+  ---- If you need to change the installation directory of the parsers (see -> Advanced Setup)
+  -- parser_install_dir = "/some/path/to/store/parsers", -- Remember to run vim.opt.runtimepath:append("/some/path/to/store/parsers")!
+
+  highlight = {
+    -- `false` will disable the whole extension
+    enable = true,
+
+    -- NOTE: these are the names of the parsers and not the filetype. (for example if you want to
+    -- disable highlighting for the `tex` filetype, you need to include `latex` in this list as this is
+    -- the name of the parser)
+    -- list of language that will be disabled
+    disable = { "c", "rust" },
+    -- Or use a function for more flexibility, e.g. to disable slow treesitter highlight for large files
+    disable = function(lang, buf)
+        local max_filesize = 100 * 1024 -- 100 KB
+        local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+        if ok and stats and stats.size > max_filesize then
+            return true
+        end
+    end,
+
+    -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+    -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+    -- Using this option may slow down your editor, and you may see some duplicate highlights.
+    -- Instead of true it can also be a list of languages
+    additional_vim_regex_highlighting = false,
+  },
+}
 EOF
 endif
 
+if 0
 " ------------------------------------
 " tagbar 설정
 " ------------------------------------
@@ -595,6 +693,103 @@ let g:tagbar_type_rust = {
       \ 'P': 'method',
   \ },
 \ }
+endif
+
+" --------------------------------------------------------------------------------------------------
+"  Vista
+" --------------------------------------------------------------------------------------------------
+function! NearestMethodOrFunction() abort
+  return get(b:, 'vista_nearest_method_or_function', '')
+endfunction
+
+"set statusline+=%{NearestMethodOrFunction()}
+
+" By default vista.vim never run if you don't call it explicitly.
+"
+" If you want to show the nearest function in your statusline automatically,
+" you can add the following line to your vimrc
+autocmd VimEnter * call vista#RunForNearestMethodOrFunction()
+
+
+" How each level is indented and what to prepend.
+" This could make the display more compact or more spacious.
+" e.g., more compact: ["▸ ", ""]
+" Note: this option only works for the kind renderer, not the tree renderer.
+let g:vista_icon_indent = ["╰─▸ ", "├─▸ "]
+
+" Executive used when opening vista sidebar without specifying it.
+" See all the avaliable executives via `:echo g:vista#executives`.
+let g:vista_default_executive = 'ctags'
+
+" Set the executive for some filetypes explicitly. Use the explicit executive
+" instead of the default one for these filetypes when using `:Vista` without
+" specifying the executive.
+let g:vista_executive_for = {
+  \ 'cpp': 'vim_lsp',
+  \ 'php': 'vim_lsp',
+  \ }
+
+" Declare the command including the executable and options used to generate ctags output
+" for some certain filetypes.The file path will be appened to your custom command.
+" For example:
+let g:vista_ctags_cmd = {
+      \ 'haskell': 'hasktags -x -o - -c',
+      \ }
+
+" To enable fzf's preview window set g:vista_fzf_preview.
+" The elements of g:vista_fzf_preview will be passed as arguments to fzf#vim#with_preview()
+" For example:
+"let g:vista_fzf_preview = ['right:50%']
+
+" Ensure you have installed some decent font to show these pretty symbols, then you can enable icon for the kind.
+let g:vista#renderer#enable_icon = 1
+
+" The default icons can't be suitable for all the filetypes, you can extend it as you wish.
+let g:vista#renderer#icons = {
+\   "function": "\uf794",
+\   "variable": "\uf71b",
+\  }
+
+let g:vista_sidebar_position = "vertical topleft"
+let g:vista_stay_on_open = 0
+let g:vista_sidebar_width = 50
+
+
+" --------------------------------------------------------------------------------------------------
+"  defx-vista
+" --------------------------------------------------------------------------------------------------
+" Disable python2 support
+let g:loaded_python_provider = 0
+
+" Don't enable explicitly python3 it doesn't work and disables python3
+" this only works for DISABLE, python3 is enabled by default
+" let g:loaded_python3_provider = 1
+
+" set the route of the executable
+let g:python3_host_prog = '/usr/bin/python3'
+
+" Explicitly tells to neovim use python3 when evaluate python code
+set pyxversion=3
+
+let g:defx_vista_left = 1
+" Default: 1
+" The window will be opened on the left side of vim
+" Change to 0 if you prefer right side
+
+let g:defx_vista_width = 50
+" Default: 30
+" Width of the defx and vista window
+
+
+
+" --------------------------------------------------------------------------------------------------
+"  statusline
+" --------------------------------------------------------------------------------------------------
+" 상태바 커스터마이징 %<item>으로 사용하며, \는 구분자로 공백을 넣을 경우는 구분자를 넣어줘야함.
+"set statusline=%F\ %y%m%r\ %=Line:\ %l/%L\ [%p%%]\ Col:%c\ Buf:%n
+"set statusline=%F\ %{NearestMethodOrFunction()}\ %y%m%r\ %=Line:\ %l/%L\ [%p%%]\ Col:%c\ Buf:%n
+"hi statusline ctermfg=White ctermbg=4 cterm=none "활성화된 상태바 배경색 및 폰트색 설정
+"hi statuslineNC ctermfg=White ctermbg=8 cterm=none " 윈도우가 2개 이상인 경우 비활성화된 윈도우의 배경색 및 폰트색 설정
 
 " --------------------------------------------------------------------------------------------------
 " ConqueTerm 설정
@@ -605,6 +800,7 @@ let g:tagbar_type_rust = {
 " --------------------------------------------------------------------------------------------------
 " vim-airline 설정
 " --------------------------------------------------------------------------------------------------
+if 0
 " powerline-font 활성화
 let g:airline_powerline_fonts = 1
 " luna 테마 사용
@@ -618,6 +814,7 @@ let g:airline#extensions#tabline#formatter = 'unique_tail'
 let g:airline#extensions#tabline#enabled = 1
 " 항상 tabline 을 표시
 let g:airline#extensions#tabline#show_tabs = 1
+let g:airline#extensions#vista#enabled = 1
 
 " Custom vim-airline integration
 function! StatusDiagnostic() abort
@@ -633,24 +830,69 @@ function! StatusDiagnostic() abort
     return join(msgs, ' '). ' ' . get(g:, 'coc_status', '') . ' ' . get(b:, 'coc_current_function', '')
 endfunction
 let g:airline_section_c = '%{StatusDiagnostic()}'
+endif
+
+
+" --------------------------------------------------------------------------------------------------
+" lightline & lightline-bufferline
+" --------------------------------------------------------------------------------------------------
+let g:lightline = { 
+       \ 'colorscheme': 'equinusocio_material',
+       "\ 'colorscheme': 'wombat',
+       "\ 'colorscheme': 'material',
+       \ 'active': {
+       \   'left': [ ['mode', 'paste'],
+       \             ['fugitive', 'readonly', 'filename', 'modified'], ['method'] ],
+       \   'right': [ [ 'lineinfo' ], ['percent'] ]
+       \ },
+       \ 'tabline': {
+       \   'left': [ ['buffers'] ],
+       \   'right': [ ['close'] ]
+       \ },
+       \ 'component_expand': {
+       \   'buffers': 'lightline#bufferline#buffers'
+       \ },
+       \ 'component_type': {
+       \   'buffers': 'tabsel'
+       \ },
+       \ 'component': {
+       \   'readonly': '%{&filetype=="help"?"":&readonly?"\ue0a2":""}',
+       \   'modified': '%{&filetype=="help"?"":&modified?"\ue0a0":&modifiable?"":"-"}',
+       \   'fugitive': '%{exists("*fugitive#head")?fugitive#head():""}'
+       \ },
+       \ 'component_function': {
+       \   'method': 'NearestMethodOrFunction'
+       \ },
+       \ 'component_visible_condition': {
+       \   'readonly': '(&filetype!="help"&& &readonly)',
+       \   'modified': '(&filetype!="help"&&(&modified||!&modifiable))',
+       \   'fugitive': '(exists("*fugitive#head") && ""!=fugitive#head())'
+       \ },
+       \ 'separator': { 'left': "\ue0b0", 'right': "\ue0b2" },
+       \ 'subseparator': { 'left': "\ue0b1", 'right': "\ue0b3" }
+       \ }
+
+let g:lightline#bufferline#enable_devicons = 1
+let g:lightline#bufferline#enable_nerdfont = 1
+let g:lightline#bufferline#unicode_symbols = 1
 
 
 " --------------------------------------------------------------------------------------------------
 " NerdTree
 " --------------------------------------------------------------------------------------------------
 " 창 크기(가로)를 40 으로 설정
-let g:NERDTreeWinSize=40
+let g:NERDTreeWinSize=50
 
 let mapleader="\\"
 "map <Leader>nt <ESC>:NERDTree<CR>
 "nmap <F6> :NERDTreeToggle<CR>
 
 " Tree 아이콘 변경
-let g:NERDTreeDirArrowExpandable = '▸'
-let g:NERDTreeDirArrowCollapsible = '▾'
+"let g:NERDTreeDirArrowExpandable = '▸'
+"let g:NERDTreeDirArrowCollapsible = '▾'
 " 파일없이 vim만 틸 경우 자동으로 NERD Tree 실행.
-"autocmd StdinReadPre * let s:std_in=1
-"autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | wincmd p | endif
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | wincmd p | endif
 " 디렉토리를 vim으로 여는 경우 NERD Tree 실행.
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
