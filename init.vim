@@ -488,7 +488,7 @@ endfunction
 " Option 3
 inoremap <silent><expr> <TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-inoremap <expr> <cr> coc#pum#visible() ? coc#_select_confirm() : "\<CR>"
+inoremap <expr> <cr> pumvisible() ? coc#_select_confirm() : "\<CR>"
 
 " <Ctrl + Space> 를 눌러서 자동완성 적용
 "if using_neovim
