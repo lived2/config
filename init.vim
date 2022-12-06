@@ -8,6 +8,12 @@ let using_neovim = has('nvim')
 let using_vim = !using_neovim
 let using_mac = has('macunix')
 
+let using_vista = 0
+let using_tagbar = 1
+
+let using_airline = 0
+let using_lightline = 1
+
 if using_neovim
     call plug#begin("~/.config/nvim/plugged")
 else
@@ -40,12 +46,17 @@ if using_neovim
     "Plug 'caenrique/nvim-toggle-terminal'
 endif
 
-" Tagbar 코드 뷰어 창
-" Plug 'majutsushi/tagbar'
-"Plug 'preservim/tagbar'
 
-" Vista to replace Tagbar 
-Plug 'liuchengxu/vista.vim'
+if using_tagbar
+    " Tagbar 코드 뷰어 창
+    " Plug 'majutsushi/tagbar'
+    Plug 'preservim/tagbar'
+endif
+
+if using_vista
+    " Vista to replace Tagbar
+    Plug 'liuchengxu/vista.vim'
+endif
 
 " NERDTree 코드 뷰어 창
 Plug 'preservim/nerdtree'
@@ -56,14 +67,18 @@ Plug 'preservim/nerdtree'
 "    Plug 'linjiX/vim-defx-vista'
 "endif
 
-" 하단에 다양한 상태(몇 번째 줄, 인코딩, etc.)를
-" 표시하는 상태바 추가
-"Plug 'vim-airline/vim-airline'
-"Plug 'vim-airline/vim-airline-themes'
+if using_airline
+    " 하단에 다양한 상태(몇 번째 줄, 인코딩, etc.)를
+    " 표시하는 상태바 추가
+    "Plug 'vim-airline/vim-airline'
+    "Plug 'vim-airline/vim-airline-themes'
+endif
 
-Plug 'itchyny/lightline.vim'
-Plug 'mengelbrecht/lightline-bufferline'
-Plug 'ryanoasis/vim-devicons'
+if using_lightline
+    Plug 'itchyny/lightline.vim'
+    Plug 'mengelbrecht/lightline-bufferline'
+    Plug 'ryanoasis/vim-devicons'
+endif
 
 " CScope 플러그인
 Plug 'ronakg/quickr-cscope.vim'
@@ -366,28 +381,33 @@ autocmd BufLeave * if (&filetype == 'c' || &filetype == 'cpp' || &filetype == 'r
 " 명령 모드 
 " ------------------------------------
 " <F6> 을 통해 NERDTree 와 Tagbar 열기
-let g:nerdtree = 0
-let g:vistaopen = 0
-function! ToggleNERD() abort
-    if g:vistaopen == 1
-        Vista!!
-        let g:vistaopen = 0
-    endif
-    NERDTreeToggle
-    let g:nerdtree = !g:nerdtree
-endfunction
-function! ToggleVista() abort
-    if g:nerdtree == 1
+if using_vista
+    let g:nerdtree = 0
+    let g:vistaopen = 0
+    function! ToggleNERD() abort
+        if g:vistaopen == 1
+            Vista!!
+            let g:vistaopen = 0
+        endif
         NERDTreeToggle
-        let g:nerdtree = 0
-    endif
-    Vista!!
-    let g:vistaopen = !g:vistaopen
-endfunction
-"nnoremap <silent><F6> :NERDTreeToggle<CR><bar>:TagbarToggle<CR><bar>:wincmd p<CR>
-nnoremap <silent><F6> :call ToggleNERD()<CR>
+        let g:nerdtree = !g:nerdtree
+    endfunction
+    function! ToggleVista() abort
+        if g:nerdtree == 1
+            NERDTreeToggle
+            let g:nerdtree = 0
+        endif
+        Vista!!
+        let g:vistaopen = !g:vistaopen
+    endfunction
+    nnoremap <silent><F6> :call ToggleNERD()<CR>
 
-nnoremap <silent><F7> :call ToggleVista()<CR>
+    nnoremap <silent><F7> :call ToggleVista()<CR>
+endif
+
+if using_tagbar
+    nnoremap <silent><F6> :NERDTreeToggle<CR><bar>:TagbarToggle<CR><bar>:wincmd p<CR>
+endif
 
 " <Ctrl + h, l> 를 눌러서 이전, 다음 탭으로 이동
 nnoremap <silent><C-j> :tabprevious<CR>
@@ -487,9 +507,10 @@ endfunction
       \ coc#refresh()
 
 " Option 3
-inoremap <silent><expr> <TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+inoremap <silent><expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-inoremap <expr> <cr> pumvisible() ? coc#_select_confirm() : "\<CR>"
+inoremap <expr><CR> pumvisible() ? coc#_select_confirm() : "\<CR>"
+
 
 " <Ctrl + Space> 를 눌러서 자동완성 적용
 "if using_neovim
@@ -650,7 +671,7 @@ require'nvim-treesitter.configs'.setup {
 EOF
 endif
 
-if 0
+if using_tagbar
 " ------------------------------------
 " tagbar 설정
 " ------------------------------------
@@ -658,7 +679,8 @@ if 0
 let g:tagbar_position = 'rightbelow'
 "let g:tagbar_position = 'right'
 "let g:tagbar_position = 'leftabove'
-let g:tagbar_height = 45
+"let g:tagbar_position = 'left'
+let g:tagbar_height = 25
 
 " tagbar for rust
 let g:rust_use_custom_ctags_defs = 1
@@ -697,66 +719,69 @@ let g:tagbar_type_rust = {
 \ }
 endif
 
-" --------------------------------------------------------------------------------------------------
-"  Vista
-" --------------------------------------------------------------------------------------------------
-function! NearestMethodOrFunction() abort
-  return get(b:, 'vista_nearest_method_or_function', '')
-endfunction
+if using_vista
+    " --------------------------------------------------------------------------------------------------
+    "  Vista
+    " --------------------------------------------------------------------------------------------------
+    function! NearestMethodOrFunction() abort
+        return get(b:, 'vista_nearest_method_or_function', '')
+    endfunction
 
-"set statusline+=%{NearestMethodOrFunction()}
+    "set statusline+=%{NearestMethodOrFunction()}
 
-" By default vista.vim never run if you don't call it explicitly.
-"
-" If you want to show the nearest function in your statusline automatically,
-" you can add the following line to your vimrc
-autocmd VimEnter * call vista#RunForNearestMethodOrFunction()
-
-
-" How each level is indented and what to prepend.
-" This could make the display more compact or more spacious.
-" e.g., more compact: ["▸ ", ""]
-" Note: this option only works for the kind renderer, not the tree renderer.
-let g:vista_icon_indent = ["╰─▸ ", "├─▸ "]
-
-" Executive used when opening vista sidebar without specifying it.
-" See all the avaliable executives via `:echo g:vista#executives`.
-let g:vista_default_executive = 'ctags'
-
-" Set the executive for some filetypes explicitly. Use the explicit executive
-" instead of the default one for these filetypes when using `:Vista` without
-" specifying the executive.
-let g:vista_executive_for = {
-  \ 'cpp': 'vim_lsp',
-  \ 'php': 'vim_lsp',
-  \ }
-
-" Declare the command including the executable and options used to generate ctags output
-" for some certain filetypes.The file path will be appened to your custom command.
-" For example:
-let g:vista_ctags_cmd = {
-      \ 'haskell': 'hasktags -x -o - -c',
-      \ }
-
-" To enable fzf's preview window set g:vista_fzf_preview.
-" The elements of g:vista_fzf_preview will be passed as arguments to fzf#vim#with_preview()
-" For example:
-"let g:vista_fzf_preview = ['right:50%']
-
-" Ensure you have installed some decent font to show these pretty symbols, then you can enable icon for the kind.
-let g:vista#renderer#enable_icon = 1
-
-" The default icons can't be suitable for all the filetypes, you can extend it as you wish.
-let g:vista#renderer#icons = {
-\   "function": "\uf794",
-\   "variable": "\uf71b",
-\  }
-
-let g:vista_sidebar_position = "vertical topleft"
-let g:vista_stay_on_open = 0
-let g:vista_sidebar_width = 50
+    " By default vista.vim never run if you don't call it explicitly.
+    "
+    " If you want to show the nearest function in your statusline automatically,
+    " you can add the following line to your vimrc
+    autocmd VimEnter * call vista#RunForNearestMethodOrFunction()
 
 
+    " How each level is indented and what to prepend.
+    " This could make the display more compact or more spacious.
+    " e.g., more compact: ["▸ ", ""]
+    " Note: this option only works for the kind renderer, not the tree renderer.
+    let g:vista_icon_indent = ["╰─▸ ", "├─▸ "]
+
+    " Executive used when opening vista sidebar without specifying it.
+    " See all the avaliable executives via `:echo g:vista#executives`.
+    let g:vista_default_executive = 'ctags'
+
+    " Set the executive for some filetypes explicitly. Use the explicit executive
+    " instead of the default one for these filetypes when using `:Vista` without
+    " specifying the executive.
+    let g:vista_executive_for = {
+                \ 'cpp': 'vim_lsp',
+                \ 'php': 'vim_lsp',
+                \ }
+
+    " Declare the command including the executable and options used to generate ctags output
+    " for some certain filetypes.The file path will be appened to your custom command.
+    " For example:
+    let g:vista_ctags_cmd = {
+                \ 'haskell': 'hasktags -x -o - -c',
+                \ }
+
+    " To enable fzf's preview window set g:vista_fzf_preview.
+    " The elements of g:vista_fzf_preview will be passed as arguments to fzf#vim#with_preview()
+    " For example:
+    "let g:vista_fzf_preview = ['right:50%']
+
+    " Ensure you have installed some decent font to show these pretty symbols, then you can enable icon for the kind.
+    let g:vista#renderer#enable_icon = 1
+
+    " The default icons can't be suitable for all the filetypes, you can extend it as you wish.
+    let g:vista#renderer#icons = {
+                \   "function": "\uf794",
+                \   "variable": "\uf71b",
+                \  }
+
+    let g:vista_sidebar_position = "vertical topleft"
+    let g:vista_stay_on_open = 0
+    let g:vista_sidebar_width = 50
+endif
+
+
+if 0
 " --------------------------------------------------------------------------------------------------
 "  defx-vista
 " --------------------------------------------------------------------------------------------------
@@ -781,7 +806,7 @@ let g:defx_vista_left = 1
 let g:defx_vista_width = 50
 " Default: 30
 " Width of the defx and vista window
-
+endif
 
 
 " --------------------------------------------------------------------------------------------------
@@ -792,6 +817,8 @@ let g:defx_vista_width = 50
 "set statusline=%F\ %{NearestMethodOrFunction()}\ %y%m%r\ %=Line:\ %l/%L\ [%p%%]\ Col:%c\ Buf:%n
 "hi statusline ctermfg=White ctermbg=4 cterm=none "활성화된 상태바 배경색 및 폰트색 설정
 "hi statuslineNC ctermfg=White ctermbg=8 cterm=none " 윈도우가 2개 이상인 경우 비활성화된 윈도우의 배경색 및 폰트색 설정
+" --------------------------------------------------------------------------------------------------
+
 
 " --------------------------------------------------------------------------------------------------
 " ConqueTerm 설정
@@ -800,83 +827,88 @@ let g:defx_vista_width = 50
 " ConqueTerm 이 Insert 모드인 상태에서도 <Ctrl>+w, W 를 사용 가능하게
 " let g:ConqueTerm_CWInsert = 1
 " --------------------------------------------------------------------------------------------------
+
+
+" --------------------------------------------------------------------------------------------------
 " vim-airline 설정
 " --------------------------------------------------------------------------------------------------
-if 0
-" powerline-font 활성화
-let g:airline_powerline_fonts = 1
-" luna 테마 사용
-let g:airline_theme = 'luna'
-" tabline 에 파일명만 출력 되도록 설정
-let g:airline#extensions#tabline#formatter = 'unique_tail'
-"let g:airline#extensions#tabline#formatter = 'default'
-" 창의 상단에 표시되도록 설정
-"let g:airline_statusline_ontop = 1
-" 탭라인 허용
-let g:airline#extensions#tabline#enabled = 1
-" 항상 tabline 을 표시
-let g:airline#extensions#tabline#show_tabs = 1
-let g:airline#extensions#vista#enabled = 1
+if using_airline
+    " powerline-font 활성화
+    let g:airline_powerline_fonts = 1
+    " luna 테마 사용
+    let g:airline_theme = 'luna'
+    " tabline 에 파일명만 출력 되도록 설정
+    let g:airline#extensions#tabline#formatter = 'unique_tail'
+    "let g:airline#extensions#tabline#formatter = 'default'
+    " 창의 상단에 표시되도록 설정
+    "let g:airline_statusline_ontop = 1
+    " 탭라인 허용
+    let g:airline#extensions#tabline#enabled = 1
+    " 항상 tabline 을 표시
+    let g:airline#extensions#tabline#show_tabs = 1
+    let g:airline#extensions#vista#enabled = 1
 
-" Custom vim-airline integration
-function! StatusDiagnostic() abort
-    let info = get(b:, 'coc_diagnostic_info', {})
-    if empty(info) | return '' | endif
-    let msgs = []
-    if get(info, 'error', 0)
-        call add(msgs, 'E' . info['error'])
-    endif
-    if get(info, 'warning', 0)
-        call add(msgs, 'W' . info['warning'])
-    endif
-    return join(msgs, ' '). ' ' . get(g:, 'coc_status', '') . ' ' . get(b:, 'coc_current_function', '')
-endfunction
-let g:airline_section_c = '%{StatusDiagnostic()}'
+    " Custom vim-airline integration
+    function! StatusDiagnostic() abort
+        let info = get(b:, 'coc_diagnostic_info', {})
+        if empty(info) | return '' | endif
+        let msgs = []
+        if get(info, 'error', 0)
+            call add(msgs, 'E' . info['error'])
+        endif
+        if get(info, 'warning', 0)
+            call add(msgs, 'W' . info['warning'])
+        endif
+        return join(msgs, ' '). ' ' . get(g:, 'coc_status', '') . ' ' . get(b:, 'coc_current_function', '')
+    endfunction
+    let g:airline_section_c = '%{StatusDiagnostic()}'
 endif
 
 
 " --------------------------------------------------------------------------------------------------
 " lightline & lightline-bufferline
 " --------------------------------------------------------------------------------------------------
-let g:lightline = { 
-       \ 'colorscheme': 'equinusocio_material',
-       "\ 'colorscheme': 'wombat',
-       "\ 'colorscheme': 'material',
-       \ 'active': {
-       \   'left': [ ['mode', 'paste'],
-       \             ['fugitive', 'readonly', 'filename', 'modified'], ['method'] ],
-       \   'right': [ [ 'lineinfo' ], ['percent'] ]
-       \ },
-       \ 'tabline': {
-       \   'left': [ ['buffers'] ],
-       \   'right': [ ['close'] ]
-       \ },
-       \ 'component_expand': {
-       \   'buffers': 'lightline#bufferline#buffers'
-       \ },
-       \ 'component_type': {
-       \   'buffers': 'tabsel'
-       \ },
-       \ 'component': {
-       \   'readonly': '%{&filetype=="help"?"":&readonly?"\ue0a2":""}',
-       \   'modified': '%{&filetype=="help"?"":&modified?"\ue0a0":&modifiable?"":"-"}',
-       \   'fugitive': '%{exists("*fugitive#head")?fugitive#head():""}'
-       \ },
-       \ 'component_function': {
-       \   'method': 'NearestMethodOrFunction'
-       \ },
-       \ 'component_visible_condition': {
-       \   'readonly': '(&filetype!="help"&& &readonly)',
-       \   'modified': '(&filetype!="help"&&(&modified||!&modifiable))',
-       \   'fugitive': '(exists("*fugitive#head") && ""!=fugitive#head())'
-       \ },
-       \ 'separator': { 'left': "\ue0b0", 'right': "\ue0b2" },
-       \ 'subseparator': { 'left': "\ue0b1", 'right': "\ue0b3" }
-       \ }
+if using_lightline
+    let g:lightline = {
+                \ 'colorscheme': 'equinusocio_material',
+                "\ 'colorscheme': 'wombat',
+                "\ 'colorscheme': 'material',
+                \ 'active': {
+                \   'left': [ ['mode', 'paste'],
+                \             ['fugitive', 'readonly', 'filename', 'modified'], ['method'] ],
+                \   'right': [ [ 'lineinfo' ], ['percent'] ]
+                \ },
+                \ 'tabline': {
+                \   'left': [ ['buffers'] ],
+                \   'right': [ ['close'] ]
+                \ },
+                \ 'component_expand': {
+                \   'buffers': 'lightline#bufferline#buffers'
+                \ },
+                \ 'component_type': {
+                \   'buffers': 'tabsel'
+                \ },
+                \ 'component': {
+                \   'readonly': '%{&filetype=="help"?"":&readonly?"\ue0a2":""}',
+                \   'modified': '%{&filetype=="help"?"":&modified?"\ue0a0":&modifiable?"":"-"}',
+                \   'fugitive': '%{exists("*fugitive#head")?fugitive#head():""}'
+                \ },
+                \ 'component_function': {
+                \   'method': 'NearestMethodOrFunction'
+                \ },
+                \ 'component_visible_condition': {
+                \   'readonly': '(&filetype!="help"&& &readonly)',
+                \   'modified': '(&filetype!="help"&&(&modified||!&modifiable))',
+                \   'fugitive': '(exists("*fugitive#head") && ""!=fugitive#head())'
+                \ },
+                \ 'separator': { 'left': "\ue0b0", 'right': "\ue0b2" },
+                \ 'subseparator': { 'left': "\ue0b1", 'right': "\ue0b3" }
+                \ }
 
-let g:lightline#bufferline#enable_devicons = 1
-let g:lightline#bufferline#enable_nerdfont = 1
-let g:lightline#bufferline#unicode_symbols = 1
+    let g:lightline#bufferline#enable_devicons = 1
+    let g:lightline#bufferline#enable_nerdfont = 1
+    let g:lightline#bufferline#unicode_symbols = 1
+endif
 
 
 " --------------------------------------------------------------------------------------------------
