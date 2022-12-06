@@ -461,6 +461,7 @@ if has("nvim-0.5.0") || has("patch-8.1.1564")
   set signcolumn=number
 endif
 
+if using_neovim
 " common function
 " <Backspace> 키가 지시자 제거, 기존 자동완성 양식 폐기
 function! CheckBackspace() abort
@@ -496,6 +497,7 @@ inoremap <expr> <cr> pumvisible() ? coc#_select_confirm() : "\<CR>"
 "else
 "  inoremap <silent><expr> <c-@> coc#refresh()
 "endif
+endif
 
 
 " --------------------------------------------------------------------------------------------------
