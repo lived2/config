@@ -685,7 +685,7 @@ let g:tagbar_height = 25
 " tagbar for rust
 let g:rust_use_custom_ctags_defs = 1
 let g:tagbar_type_rust = {
-  \ 'ctagsbin' : '/usr/bin/ctags',
+  \ 'ctagsbin' : 'ctags',
   \ 'ctagstype' : 'rust',
   \ 'kinds' : [
       \ 'n:modules',
