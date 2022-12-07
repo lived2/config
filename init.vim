@@ -413,6 +413,7 @@ if using_tagbar
     function! ToggleNerdVista() abort
         if g:nerdtreeopened == 1
             NERDTreeToggle
+            let g:nerdtreeopened = 0
         endif
         NERDTreeToggle
         TagbarToggle
@@ -431,7 +432,11 @@ nnoremap <silent><C-h> :bp<CR>
 nnoremap <silent><C-l> :bn<CR>
 
 " <Ctrl +d> 현재 버퍼 삭제
-nnoremap <silent><C-d> :bd<CR>
+if using_tagbar
+    nnoremap <silent><C-d> :call ToggleNerdVista()<CR><bar>:bd<CR><bar>:call ToggleNerdVista()<CR>
+else
+    nnoremap <silent><C-d> :bd<CR>
+endif
 
 " <Shift + h, l> 를 눌러서 현재 버퍼 삭제
 "nnoremap <silent><S-h> :bp<bar>sp<bar>bn<bar>bd<CR>
