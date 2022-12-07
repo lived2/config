@@ -70,8 +70,8 @@ Plug 'preservim/nerdtree'
 if using_airline
     " 하단에 다양한 상태(몇 번째 줄, 인코딩, etc.)를
     " 표시하는 상태바 추가
-    "Plug 'vim-airline/vim-airline'
-    "Plug 'vim-airline/vim-airline-themes'
+    Plug 'vim-airline/vim-airline'
+    Plug 'vim-airline/vim-airline-themes'
 endif
 
 if using_lightline
