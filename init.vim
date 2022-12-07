@@ -14,6 +14,8 @@ let using_tagbar = 1
 let using_airline = 0
 let using_lightline = 1
 
+let using_autoformat = 0
+
 if using_neovim
     call plug#begin("~/.config/nvim/plugged")
 else
@@ -969,13 +971,14 @@ if using_neovim
 
     lua require("lspconfig")
 
-    "autocmd BufWritePre *.c lua vim.lsp.buf.format { async = true }
-    "autocmd BufWritePre *.h lua vim.lsp.buf.format { async = true }
-    "autocmd BufWritePre *.cpp lua vim.lsp.buf.format { async = true }
-    "autocmd BufWritePre *.hpp lua vim.lsp.buf.format { async = true }
-    autocmd BufWritePre *.py lua vim.lsp.buf.format { async = true }
-
-    autocmd BufWritePre *.go lua vim.lsp.buf.format { async = true }
+    if using_autoformat
+        autocmd BufWritePre *.c lua vim.lsp.buf.format { async = true }
+        autocmd BufWritePre *.h lua vim.lsp.buf.format { async = true }
+        autocmd BufWritePre *.cpp lua vim.lsp.buf.format { async = true }
+        autocmd BufWritePre *.hpp lua vim.lsp.buf.format { async = true }
+        autocmd BufWritePre *.py lua vim.lsp.buf.format { async = true }
+        autocmd BufWritePre *.go lua vim.lsp.buf.format { async = true }
+    endif
     "autocmd BufWritePre *.go :silent call CocAction('runCommand', 'editor.action.organizeImport')
     "autocmd BufWritePre *.go lua goimports(1000)
 
