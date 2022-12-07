@@ -680,7 +680,7 @@ let g:tagbar_position = 'rightbelow'
 "let g:tagbar_position = 'right'
 "let g:tagbar_position = 'leftabove'
 "let g:tagbar_position = 'left'
-let g:tagbar_height = 25
+let g:tagbar_height = 35
 
 " tagbar for rust
 let g:rust_use_custom_ctags_defs = 1
