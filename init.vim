@@ -78,6 +78,7 @@ if using_lightline
     Plug 'itchyny/lightline.vim'
     Plug 'mengelbrecht/lightline-bufferline'
     Plug 'ryanoasis/vim-devicons'
+    Plug 'sainnhe/lightline_foobar.vim'
 endif
 
 " CScope 플러그인
@@ -880,9 +881,12 @@ endif
 " --------------------------------------------------------------------------------------------------
 if using_lightline
     let g:lightline = {
-                \ 'colorscheme': 'equinusocio_material',
+                "\ 'colorscheme': 'equinusocio_material',
                 "\ 'colorscheme': 'wombat',
                 "\ 'colorscheme': 'material',
+                "\ 'colorscheme': 'materia',
+                "\ 'colorscheme': 'sacredforest_alter',
+                \ 'colorscheme': 'moons',
                 \ 'active': {
                 \   'left': [ ['mode', 'paste'],
                 \             ['fugitive', 'readonly', 'filename', 'modified'], ['method'] ],
@@ -918,6 +922,8 @@ if using_lightline
     let g:lightline#bufferline#enable_devicons = 1
     let g:lightline#bufferline#enable_nerdfont = 1
     let g:lightline#bufferline#unicode_symbols = 1
+    let g:lightline.component_raw = {'buffers': 1}
+    let g:lightline#bufferline#clickable = 1
 endif
 
 
