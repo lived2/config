@@ -406,7 +406,17 @@ if using_vista
 endif
 
 if using_tagbar
-    nnoremap <silent><F6> :NERDTreeToggle<CR><bar>:TagbarToggle<CR><bar>:wincmd p<CR>
+    let g:nerdtreeopened = 1
+    function! ToggleNerdVista() abort
+        if g:nerdtreeopened == 1
+            NERDTreeToggle
+        endif
+        NERDTreeToggle
+        TagbarToggle
+        wincmd p
+    endfunction
+    "nnoremap <silent><F6> :NERDTreeToggle<CR><bar>:TagbarToggle<CR><bar>:wincmd p<CR>
+    nnoremap <silent><F6> :call ToggleNerdVista()<CR>
 endif
 
 " <Ctrl + h, l> 를 눌러서 이전, 다음 탭으로 이동
@@ -925,11 +935,12 @@ let mapleader="\\"
 "let g:NERDTreeDirArrowExpandable = '▸'
 "let g:NERDTreeDirArrowCollapsible = '▾'
 " 파일없이 vim만 틸 경우 자동으로 NERD Tree 실행.
+let g:nerdtreeopened = 0
 autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | wincmd p | endif
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | let g:nerdtreeopened = 1 | wincmd p | endif
 " 디렉토리를 vim으로 여는 경우 NERD Tree 실행.
 autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
+autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | let g:nerdtreeopened = 1 | wincmd p | ene | endif
 
 " vim에서 nerdtree가 에러날 경우 사용
 "if using_vim
@@ -952,10 +963,10 @@ if using_neovim
 
     lua require("lspconfig")
 
-    autocmd BufWritePre *.c lua vim.lsp.buf.format { async = true }
-    autocmd BufWritePre *.h lua vim.lsp.buf.format { async = true }
-    autocmd BufWritePre *.cpp lua vim.lsp.buf.format { async = true }
-    autocmd BufWritePre *.hpp lua vim.lsp.buf.format { async = true }
+    "autocmd BufWritePre *.c lua vim.lsp.buf.format { async = true }
+    "autocmd BufWritePre *.h lua vim.lsp.buf.format { async = true }
+    "autocmd BufWritePre *.cpp lua vim.lsp.buf.format { async = true }
+    "autocmd BufWritePre *.hpp lua vim.lsp.buf.format { async = true }
     autocmd BufWritePre *.py lua vim.lsp.buf.format { async = true }
 
     autocmd BufWritePre *.go lua vim.lsp.buf.format { async = true }
