@@ -409,7 +409,7 @@ if using_vista
 endif
 
 if using_tagbar
-    let g:nerdtreeopened = 1
+    let g:nerd_vista_opened = 0
     function! ToggleNerdVista() abort
         if g:nerdtreeopened == 1
             NERDTreeToggle
@@ -417,6 +417,7 @@ if using_tagbar
         endif
         NERDTreeToggle
         TagbarToggle
+        let g:nerd_vista_opened = 1
         wincmd p
     endfunction
     "nnoremap <silent><F6> :NERDTreeToggle<CR><bar>:TagbarToggle<CR><bar>:wincmd p<CR>
@@ -433,7 +434,16 @@ nnoremap <silent><C-l> :bn<CR>
 
 " <Ctrl +d> 현재 버퍼 삭제
 if using_tagbar
-    nnoremap <silent><C-d> :call ToggleNerdVista()<CR><bar>:bd<CR><bar>:call ToggleNerdVista()<CR>
+    function! CloseBuffer() abort
+        if g:nerd_vista_opened == 1
+            :call ToggleNerdVista()
+        endif
+        :bd
+        if g:nerd_vista_opened == 1
+            :call ToggleNerdVista()
+        endif
+    endfunction
+    nnoremap <silent><C-d> :call CloseBuffer()<CR>
 else
     nnoremap <silent><C-d> :bd<CR>
 endif
