@@ -42,7 +42,7 @@ Plug 'jackguo380/vim-lsp-cxx-highlight'
 if using_neovim
     " nvim-treesitter 구문 파싱 하이라이팅
     Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-    "Plug 'nvim-treesitter/nvim-treesitter'
+    Plug 'nvim-treesitter/nvim-treesitter-context'
 
     " Terminal toggle
     "Plug 'caenrique/nvim-toggle-terminal'
@@ -697,6 +697,7 @@ require'nvim-treesitter.configs'.setup {
   },
 }
 EOF
+hi TreesitterContextBottom gui=underline guisp=Grey
 endif
 
 if using_tagbar
@@ -906,8 +907,8 @@ if using_lightline
                 \ 'colorscheme': 'moons',
                 \ 'active': {
                 \   'left': [ ['mode', 'paste'],
-                \             ['fugitive', 'readonly', 'filename', 'modified'], ['method'] ],
-                \   'right': [ [ 'lineinfo' ], ['percent'] ]
+                \             ['fugitive', 'readonly', 'filename', 'modified'], ['tagbar'] ],
+                \   'right': [ ['lineinfo'], ['percent'] ]
                 \ },
                 \ 'tabline': {
                 \   'left': [ ['buffers'] ],
@@ -922,15 +923,17 @@ if using_lightline
                 \ 'component': {
                 \   'readonly': '%{&filetype=="help"?"":&readonly?"\ue0a2":""}',
                 \   'modified': '%{&filetype=="help"?"":&modified?"\ue0a0":&modifiable?"":"-"}',
-                \   'fugitive': '%{exists("*fugitive#head")?fugitive#head():""}'
+                \   'fugitive': '%{exists("*fugitive#head")?fugitive#head():""}',
+                \   'tagbar': '%{tagbar#currenttag("%s", "", "f")}',
                 \ },
-                \ 'component_function': {
-                \   'method': 'NearestMethodOrFunction'
-                \ },
+                "\ 'component_function': {
+                "\   'method': 'NearestMethodOrFunction'
+                "\ },
                 \ 'component_visible_condition': {
                 \   'readonly': '(&filetype!="help"&& &readonly)',
                 \   'modified': '(&filetype!="help"&&(&modified||!&modifiable))',
-                \   'fugitive': '(exists("*fugitive#head") && ""!=fugitive#head())'
+                \   'fugitive': '(exists("*fugitive#head") && ""!=fugitive#head())',
+                \   'tagbar': '%{tagbar#currenttag("%s", "", "f")}',
                 \ },
                 \ 'separator': { 'left': "\ue0b0", 'right': "\ue0b2" },
                 \ 'subseparator': { 'left': "\ue0b1", 'right': "\ue0b3" }
