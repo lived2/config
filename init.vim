@@ -8,7 +8,7 @@ let using_neovim = has('nvim')
 let using_vim = !using_neovim
 let using_mac = has('macunix')
 
-let using_vista = 0
+let using_vista = 1
 let using_tagbar = 1
 
 let using_airline = 0
@@ -384,7 +384,7 @@ autocmd BufLeave * if (&filetype == 'c' || &filetype == 'cpp' || &filetype == 'r
 " 명령 모드 
 " ------------------------------------
 " <F6> 을 통해 NERDTree 와 Tagbar 열기
-if using_vista
+if 0 "using_vista
     let g:nerdtree = 0
     let g:vistaopen = 0
     function! ToggleNERD() abort
@@ -1001,7 +1001,8 @@ if using_lightline
                 \ 'colorscheme': 'moons',
                 \ 'active': {
                 \   'left': [ ['mode', 'paste'],
-                \             ['fugitive', 'readonly', 'filename', 'modified'], ['tagbar'] ],
+                "\             ['fugitive', 'readonly', 'filename', 'modified'], ['tagbar'] ],
+                \             ['fugitive', 'readonly', 'filename', 'modified'], ['method'] ],
                 \   'right': [ ['lineinfo'], ['percent'] ]
                 \ },
                 \ 'tabline': {
@@ -1020,9 +1021,9 @@ if using_lightline
                 \   'fugitive': '%{exists("*fugitive#head")?fugitive#head():""}',
                 \   'tagbar': '%{tagbar#currenttag("%s", "", "f")}',
                 \ },
-                "\ 'component_function': {
-                "\   'method': 'NearestMethodOrFunction'
-                "\ },
+                \ 'component_function': {
+                \   'method': 'NearestMethodOrFunction'
+                \ },
                 \ 'component_visible_condition': {
                 \   'readonly': '(&filetype!="help"&& &readonly)',
                 \   'modified': '(&filetype!="help"&&(&modified||!&modifiable))',
