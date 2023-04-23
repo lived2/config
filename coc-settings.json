@@ -1,5 +1,5 @@
 {
-  "clangd.path": "~/.config/coc/extensions/coc-clangd-data/install/14.0.3/clangd_14.0.3/bin/clangd",
+  "clangd.path": "/Library/Developer/CommandLineTools/usr/bin/clangd",
   "coc.preferences.currentFunctionSymbolAutoUpdate": true,
   "diagnostic.errorSign": "✖",
   "diagnostic.warningSign": "⚠",
@@ -19,9 +19,9 @@
 
   "clangd.inlayHints.enable": false,
 
-  "coc.preferences.formatOnSaveFiletypes": [
-    //"cpp"
-  ],
+  "suggest.detailField": "abbr",
+  "suggest.enablePreview": false,
+  "coc.preferences.formatOnSaveFiletypes": ["markdown", "rust"],
 
   "languageserver": {
       "golang": {
@@ -110,5 +110,21 @@
               }
           }
       }
-  }
+  },
+  // 2023.04.15 Added
+  "python.jediEnabled": false,
+  "python.linting.pylintArgs": [
+    "--load-plugins",
+    "pylint_django"
+  ],
+  "python.linting.pylintEnabled": true,
+  "python.venvFolders": [
+    ".direnv",
+    ".pyenv",
+    "envs",
+    "~/.cache/pypoetry/virtualenvs",
+    "~/.local/share/virtualenvs"
+  ],
+  "python.workspaceSymbols.exclusionPatterns": [],
+  //"tsserver.implicitProjectConfig.experimentalDecorators": true
 }
