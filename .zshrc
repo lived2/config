@@ -7,6 +7,13 @@ fi
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
+#export PATH=/opt/homebrew/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin
+#export PATH=/opt/homebrew/bin:$PATH:$GOPATH/bin:~/bin
+#PATH=$PATH:~/.cargo/bin:/usr/lib/llvm-10/bin:$GOROOT/bin:$GOPATH/bin:~/.local/bin:~/bin
+
+export PYTHONPATH=~/Library/Python/3.11/lib/python/site-packages
+
+[[ -s "$HOME/.cargo/env" ]] && source "$HOME/.cargo/env"
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
@@ -25,7 +32,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
 
 # Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
+CASE_SENSITIVE="true"
 
 # Uncomment the following line to use hyphen-insensitive completion.
 # Case-sensitive completion must be off. _ and - will be interchangeable.
@@ -79,10 +86,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 #plugins=(git)
-plugins=(git
-    zsh-autosuggestions
-    zsh-syntax-highlighting
-) 
+plugins=(git zsh-syntax-highlighting zsh-autosuggestions fasd)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -92,6 +96,8 @@ source $ZSH/oh-my-zsh.sh
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
+export LANG=en_US.UTF-8
+#export LANG=ko_KR.UTF-8
 
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
@@ -128,31 +134,36 @@ _fix_cursor() {
 precmd_functions+=(_fix_cursor)
 
 # go
-GOROOT=/usr/local/go
+#GOROOT=/usr/local/go
 #GOPATH=~/.go
 GOPATH=~/go
-JAVA_HOME=/usr/lib/jvm/java
+#JAVA_HOME=/usr/lib/jvm/java
 #PATH=$PATH:~/.cargo/bin:$GOROOT/bin:$GOPATH/bin:/usr/local/clang+llvm-13.0.0-x86_64-linux-gnu-ubuntu-20.04/bin:~/.local/bin:~/bin
-PATH=$PATH:~/.cargo/bin:/usr/lib/llvm-10/bin:$GOROOT/bin:$GOPATH/bin:~/.local/bin:~/bin
+#PATH=$PATH:~/.cargo/bin:/usr/lib/llvm-10/bin:$GOROOT/bin:$GOPATH/bin:~/.local/bin:~/bin
+
+
+#PATH
+export PATH=/opt/homebrew/bin:$PATH:$GOPATH/bin:~/bin
+export EDITOR=nvim
 
 # alias
 # nvr: pip3 install neovim-remote
-nvim_wrapper() {
-  NVIM=`which nvim`
-  if test -z $NVIM_LISTEN_ADDRESS; then
-      $NVIM $@
-  else
-    if test -z $@; then
-        nvr -l -c new
-    else
-        nvr -l $@
-    fi
-  fi
-}
-alias vi="nvim_wrapper"
-alias vim="nvim_wrapper"
-#alias vi='nvim'
-#alias vim='nvim'
+#nvim_wrapper() {
+#  NVIM=`which nvim`
+#  if test -z $NVIM_LISTEN_ADDRESS; then
+#      $NVIM $@
+#  else
+#    if test -z $@; then
+#        nvr -l -c new
+#    else
+#        nvr -l $@
+#    fi
+#  fi
+#}
+#alias vi="nvim_wrapper"
+#alias vim="nvim_wrapper"
+alias vi='nvim'
+alias vim='nvim'
 alias cp='cp -i'
 alias mv='mv -i'
 alias rm='rm -i'
@@ -182,8 +193,10 @@ alias rustrel="RUSTFLAGS='-C link-arg=-s' cargo build --release"
 
 # NVM
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+#[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+#[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 
 # COC logging, just for debugging!
 #export NVIM_COC_LOG_LEVEL=debug && export NVIM_COC_LOG_FILE=/tmp/coc.log
