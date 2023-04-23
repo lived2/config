@@ -847,7 +847,11 @@ if using_vista
     "  Vista
     " --------------------------------------------------------------------------------------------------
     function! NearestMethodOrFunction() abort
-        return get(b:, 'vista_nearest_method_or_function', '')
+        let l:method = get(b:, 'vista_nearest_method_or_function', '')
+        if l:method != ''
+            let l:method = '[' . l:method . ']'
+        endif
+        return l:method
     endfunction
 
     "set statusline+=%{NearestMethodOrFunction()}
@@ -1001,8 +1005,8 @@ if using_lightline
                 \ 'colorscheme': 'moons',
                 \ 'active': {
                 \   'left': [ ['mode', 'paste'],
-                "\             ['fugitive', 'readonly', 'filename', 'modified'], ['tagbar'] ],
-                \             ['fugitive', 'readonly', 'filename', 'modified'], ['method'] ],
+                \             ['fugitive', 'readonly', 'filename', 'modified'], ['tagbar'] ],
+                "\             ['fugitive', 'readonly', 'filename', 'modified'], ['method'] ],
                 \   'right': [ ['lineinfo'], ['percent'] ]
                 \ },
                 \ 'tabline': {
@@ -1139,6 +1143,18 @@ let g:syntastic_python_checkers=['flake8']        " ↓ 실행시 현재줄 주�
 let g:syntastic_python_flake8_args='--ignore='    " 무시하고자 하는 errorcode
 let no_flake8_maps = 1
 
+" --------------------------------------------------------------------------------------------------
+" Removing trailing whitespaces
+" --------------------------------------------------------------------------------------------------
+highlight ExtraWhitespace ctermbg=red guibg=red
+match ExtraWhitespace /\s\+$/
+au BufWinEnter * match ExtraWhitespace /\s\+$/
+au InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+au InsertLeave * match ExtraWhitespace /\s\+$/
+au BufWinLeave * call clearmatches()
+" Remove all trailing whitespaces
+nnoremap <silent> <leader>rs :let _s=@/ <Bar> :%s/\s\+$//e <Bar> :let @/=_s <Bar> :nohl <Bar> :unlet _s <CR>
+
 
 " --------------------------------------------------------------------------------------------------
 "  언어별 간단 컴파일
@@ -1155,6 +1171,30 @@ let no_flake8_maps = 1
 " C/C++ Run
 "au FileType c,cpp map <F4> :!./%<<CR>
 "au FileType c,cpp imap <F4> <ESC>:!./%<<CR>
+
+" cppman
+function! s:JbzCppMan()
+    let old_isk = &iskeyword
+    setl iskeyword+=:
+    let str = expand("<cword>")
+    let &l:iskeyword = old_isk
+    execute 'Man ' . str
+endfunction
+command! JbzCppMan :call s:JbzCppMan()
+
+"au FileType cpp nnoremap <buffer>K :JbzCppMan<CR>
+
+" clang-format
+function! s:JbzClangFormat(first, last)
+  let l:winview = winsaveview()
+  execute a:first . "," . a:last . "!clang-format"
+  call winrestview(l:winview)
+endfunction
+command! -range=% JbzClangFormat call <sid>JbzClangFormat (<line1>, <line2>)
+
+" Autoformatting with clang-format
+au FileType c,cpp nnoremap <buffer><leader>lf :<C-u>JbzClangFormat<CR>
+au FileType c,cpp vnoremap <buffer><leader>lf :JbzClangFormat<CR>
 
 " C/C++ Make & Run
 au FileType c,cpp map <F5> :w<CR>:!cd build/debug ; make -j4 ; ./run.sh<CR>
