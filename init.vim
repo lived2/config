@@ -100,6 +100,10 @@ Plug 'Shirk/vim-gas'
 
 "Plug 'octol/vim-cpp-enhanced-highlight'
 
+if using_neovim
+    Plug 'MunifTanjim/nui.nvim'
+endif
+
 " Rust
 Plug 'rust-lang/rust.vim'
 
@@ -1173,16 +1177,36 @@ nnoremap <silent> <leader>rs :let _s=@/ <Bar> :%s/\s\+$//e <Bar> :let @/=_s <Bar
 "au FileType c,cpp imap <F4> <ESC>:!./%<<CR>
 
 " cppman
-function! s:JbzCppMan()
-    let old_isk = &iskeyword
-    setl iskeyword+=:
-    let str = expand("<cword>")
-    let &l:iskeyword = old_isk
-    execute 'Man ' . str
-endfunction
-command! JbzCppMan :call s:JbzCppMan()
-
+"function! s:JbzCppMan()
+"    let old_isk = &iskeyword
+"    setl iskeyword+=:
+"    let str = expand("<cword>")
+"    let &l:iskeyword = old_isk
+"    execute 'Man ' . str
+"endfunction
+"command! JbzCppMan :call s:JbzCppMan()
 "au FileType cpp nnoremap <buffer>K :JbzCppMan<CR>
+
+" CPPMan
+lua <<EOF
+    require('cppman')
+    local cppman = require"cppman"
+    cppman.setup()
+
+    -- Make a keymap to open the word under cursor in CPPman
+    vim.keymap.set("n", "<leader>cm", function()
+    cppman.open_cppman_for(vim.fn.expand("<cword>"))
+    end)
+    -- Use "K" to open cppman
+    vim.keymap.set("n", "K", function()
+    cppman.open_cppman_for(vim.fn.expand("<cword>"))
+    end)
+
+    -- Open search box
+    vim.keymap.set("n", "<leader>cc", function()
+    cppman.input()
+    end)
+EOF
 
 " clang-format
 function! s:JbzClangFormat(first, last)
