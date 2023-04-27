@@ -1198,9 +1198,9 @@ lua <<EOF
     cppman.open_cppman_for(vim.fn.expand("<cword>"))
     end)
     -- Use "K" to open cppman
-    vim.keymap.set("n", "K", function()
-    cppman.open_cppman_for(vim.fn.expand("<cword>"))
-    end)
+    --vim.keymap.set("n", "K", function()
+    --cppman.open_cppman_for(vim.fn.expand("<cword>"))
+    --end)
 
     -- Open search box
     vim.keymap.set("n", "<leader>cc", function()
