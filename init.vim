@@ -64,7 +64,7 @@ endif
 Plug 'preservim/nerdtree'
 "Plug 'scrooloose/nerdtree'
 
-"if using_neovim 
+"if using_neovim
 "    Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
 "    Plug 'linjiX/vim-defx-vista'
 "endif
@@ -306,7 +306,7 @@ endif
 highlight Normal guibg=NONE
 highlight EndOfBuffer guibg=NONE
 
-" 줄번호 배경색은 투명(NULL)하게, 
+" 줄번호 배경색은 투명(NULL)하게,
 " 글자는 굵게(bold), 글자색은 하얗게(White)
 highlight LineNr guibg=NONE gui=bold guifg=white
 
@@ -379,13 +379,13 @@ autocmd BufLeave * if (&filetype == 'c' || &filetype == 'cpp' || &filetype == 'r
 " =  nore(no recursive) 맵핑                                              =
 " =========================================================================
 " ------------------------------------
-" 편집 모드 
+" 편집 모드
 " ------------------------------------
 " jk 와 kj 를 <ESC> 키로 맵핑
 "inoremap jk <ESC>
 "inoremap kj <ESC>
 " ------------------------------------
-" 명령 모드 
+" 명령 모드
 " ------------------------------------
 " <F6> 을 통해 NERDTree 와 Tagbar 열기
 if 0 "using_vista
@@ -462,7 +462,7 @@ nnoremap <silent><C-w>t :NERDTreeFocus<CR>
 " 우측 하단(botright)에 창 생성(new), 해당 창을 terminal 로 변경
 " 크기를 10 으로 재설정(resize) 후 창 높이를 고정(winfixheight)시킴
 " 줄번호는 삭제하고, 터미널 디렉터리 글자색을 변경
-"nnoremap <silent><F7> 
+"nnoremap <silent><F7>
 "	\:botright new<CR><bar>
 "	\:terminal<CR><bar><ESC>
 "	\:resize 10<CR><bar>
@@ -477,7 +477,7 @@ nnoremap <silent><C-w>t :NERDTreeFocus<CR>
 "endif
 
 " ------------------------------------
-" 터미널 모드 
+" 터미널 모드
 " ------------------------------------
 " 터미널 모드에서 <Ctrl + w> 누르면 명령 모드로 전환하고 <Ctrl + w> 입력
 tmap <silent><C-w> <ESC><C-w>
@@ -491,12 +491,12 @@ tnoremap <silent><ESC> <C-\><C-n>
 
 
 " ------------------------------------
-" ctags 
+" ctags
 " ------------------------------------
 " <c-]>를 g<c-]>로 할당: 일반, 비주얼 모드에 적용
 " <c-]>의 :tag 동작(첫번째로 찾아지는 태그로 이동) 대신
-" g<c-]>의 :tjump 동작(이동할 태그 선택) 사용 
-"map <c-]> g<c-]> 
+" g<c-]>의 :tjump 동작(이동할 태그 선택) 사용
+"map <c-]> g<c-]>
 
 " 현재 경로부터 상위 경로로 tags 파일 찾아가도록 설정
 set tags=tags;
@@ -1084,7 +1084,7 @@ autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in
 let g:lsp_diagnostics_enabled = 0
 
 " --------------------------------------------------------------------------------------------------
-" lsp config 
+" lsp config
 " --------------------------------------------------------------------------------------------------
 let g:lsp_cxx_hl_use_text_props = 1
 if using_neovim
@@ -1143,7 +1143,7 @@ let g:jedi#show_call_signatures=0       " 자세히 설명하는 창을 보여�
 let g:jedi#popup_select_first="0"       " 자동완성시 자동팝업 등장 x
 let g:jedi#force_py_version=3           " 자동완성 3 = python3 , 2 = python2
 
-let g:syntastic_python_checkers=['flake8']        " ↓ 실행시 현재줄 주석 해제필요    
+let g:syntastic_python_checkers=['flake8']        " ↓ 실행시 현재줄 주석 해제필요
 let g:syntastic_python_flake8_args='--ignore='    " 무시하고자 하는 errorcode
 let no_flake8_maps = 1
 
