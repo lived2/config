@@ -1239,6 +1239,7 @@ au FileType rust map <F5> :w<CR>:!cargo run<CR>
 au FileType rust imap <F5> <ESC>:w<CR>:!cargo run<CR>
 "au FileType rust map <F5> :w<CR>:!rustc % ; ./%<<CR>
 "au FileType rust imap <F5> <ESC>:w<CR>:!rustc % ; ./%<<CR>
+autocmd FileType rust :set bs=2 ts=2 sw=2
 
 " Java
 au FileType java map <F5> :w<CR>:!javac % ; java %<<CR>
