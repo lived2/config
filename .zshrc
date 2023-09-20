@@ -142,8 +142,13 @@ GOPATH=~/go
 
 
 #PATH
-export PATH=/opt/homebrew/bin:$PATH:$GOPATH/bin:~/bin
+export PATH=/opt/homebrew/bin:/opt/homebrew/opt/llvm/bin:$PATH:$GOPATH/bin:~/bin
 export EDITOR=nvim
+
+# NVM
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # alias
 # nvr: pip3 install neovim-remote
@@ -162,38 +167,37 @@ export EDITOR=nvim
 #alias vi="nvim_wrapper"
 #alias vim="nvim_wrapper"
 alias vi='nvim'
+alias viq='nvim-qt'
 alias vim='nvim'
 alias cp='cp -i'
 alias mv='mv -i'
 alias rm='rm -i'
+alias grep='grep -n --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox}'
+# alias for release builds rust/go
+alias rustrel="RUSTFLAGS='-C link-arg=-s' cargo build --release"
+alias gorel='go build -ldflags "-s -w"'
+# alias for change directory
+alias cdgh='cd ~/gh'
+alias cdproj='cd ~/project'
 alias cdd='cd /mnt/d'
 alias cdpy='cd /mnt/d/PythonWorkspace'
 
 # create cmake and update compile_commands.json
-_update_cmake() {
-    cmake -S . -DCMAKE_EXPORT_COMPILE_COMMANDS=1 -DCMAKE_BUILD_TYPE=Release -B ./build/release
-    cmake -S . -DCMAKE_EXPORT_COMPILE_COMMANDS=1 -DCMAKE_BUILD_TYPE=Debug -B ./build/debug
-
-    if [ ! -f compile_commands.json ]; then
-        ln -s build/debug/compile_commands.json compile_commands.json
-    fi
-
-    if [ ! -f build/debug/run.sh ]; then
-        dirname=${PWD##*/}
-        echo "exec ./"$dirname > build/debug/run.sh
-        chmod 755 build/debug/run.sh
-    fi
-}
-alias update_cmake='_update_cmake'
-
-# alias for release builds go/rust
-alias gorel='go build -ldflags "-s -w"'
-alias rustrel="RUSTFLAGS='-C link-arg=-s' cargo build --release"
-
-# NVM
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+#_update_cmake() {
+#    cmake -S . -DCMAKE_EXPORT_COMPILE_COMMANDS=1 -DCMAKE_BUILD_TYPE=Release -B ./build/release
+#    cmake -S . -DCMAKE_EXPORT_COMPILE_COMMANDS=1 -DCMAKE_BUILD_TYPE=Debug -B ./build/debug
+#
+#    if [ ! -f compile_commands.json ]; then
+#        ln -s build/debug/compile_commands.json compile_commands.json
+#    fi
+#
+#    if [ ! -f build/debug/run.sh ]; then
+#        dirname=${PWD##*/}
+#        echo "exec ./"$dirname > build/debug/run.sh
+#        chmod 755 build/debug/run.sh
+#    fi
+#}
+#alias update_cmake='_update_cmake'
 
 # COC logging, just for debugging!
 #export NVIM_COC_LOG_LEVEL=debug && export NVIM_COC_LOG_FILE=/tmp/coc.log
