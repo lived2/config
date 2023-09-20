@@ -179,8 +179,6 @@ alias gorel='go build -ldflags "-s -w"'
 # alias for change directory
 alias cdgh='cd ~/gh'
 alias cdproj='cd ~/project'
-alias cdd='cd /mnt/d'
-alias cdpy='cd /mnt/d/PythonWorkspace'
 
 # create cmake and update compile_commands.json
 #_update_cmake() {
