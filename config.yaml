@@ -1,0 +1,72 @@
+# Only use the warnings we specify below. Ignore settings from the build.
+CompileFlags:
+  Remove: [
+    -W*,
+    -O*,
+    -ferror-limit*
+  ]
+
+---
+
+CompileFlags:
+  Add: [
+    -Weverything,
+    -Wno-documentation,
+    -Wno-documentation-unknown-command,
+    -Wno-covered-switch-default,
+    -Wno-unknown-attributes,
+    -Wno-unknown-pragmas,
+    -Wno-missing-field-initializers,
+    -Wno-flexible-array-extensions,
+    -Wno-declaration-after-statement, # Annoying!
+    -Wno-packed,
+
+    # *Very* annoying!
+    -Wno-bad-function-cast,
+
+    # For _Static_assert
+    -Wno-c11-extensions,
+
+    # Often incorrect, due to offsetof().
+    -Wno-gnu-folding-constant,
+    -Wno-vla,
+
+    # VERY new warning. Active in C, where it can't be fixed. A bug?
+    -Wno-unsafe-buffer-usage,
+
+    # Sometimes, the code do be like that.
+    -ferror-limit=0,
+  ]
+
+---
+
+# Some warnings don't make any sense for header files, so we disable those when
+# looking at them.
+If:
+  PathMatch: [ .*\.h, .*\.hh, .*\.hpp ]
+CompileFlags:
+  Add: [
+    -Wno-empty-translation-unit,
+    -Wno-unused-macros,
+    -Wno-unused-functions,
+    -Wno-reserved-id-macro,
+  ]
+
+---
+
+# In order to parse OpenCL code correctly, we need to give clange some extra
+# flags.
+If:
+  PathMatch: [ .*\.cl, .*\.clpp ]
+CompileFlags:
+  Add: [
+    -Xclang,
+    -finclude-default-header,
+    -Xclang,
+    -fdeclare-opencl-builtins,
+  ]
+
+---
+
+Hover:
+  ShowAKA: No
