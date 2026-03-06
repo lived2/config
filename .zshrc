@@ -135,14 +135,15 @@ precmd_functions+=(_fix_cursor)
 # go
 #GOROOT=/usr/local/go
 #GOPATH=~/.go
-GOPATH=~/go
+#GOPATH=~/go
 #JAVA_HOME=/usr/lib/jvm/java
 #PATH=$PATH:~/.cargo/bin:$GOROOT/bin:$GOPATH/bin:/usr/local/clang+llvm-13.0.0-x86_64-linux-gnu-ubuntu-20.04/bin:~/.local/bin:~/bin
 #PATH=$PATH:~/.cargo/bin:/usr/lib/llvm-10/bin:$GOROOT/bin:$GOPATH/bin:~/.local/bin:~/bin
 
 
 #PATH
-export PATH=/opt/homebrew/bin:/opt/homebrew/opt/llvm/bin:$PATH:$GOPATH/bin:~/bin
+#export PATH=/opt/homebrew/bin:/opt/homebrew/opt/llvm/bin:$PATH:$GOPATH/bin:~/bin
+export PATH=/opt/homebrew/bin:/opt/homebrew/opt/llvm/bin:$PATH:~/.local/bin:~/bin
 export EDITOR=nvim
 
 # NVM
@@ -170,18 +171,33 @@ alias vi='nvim'
 alias viq='nvim-qt'
 alias vim='nvim'
 alias neo='neovide'
+export NEOVIDE_TABS=0
 #alias ls='ls -hG'
 alias ls='gls -hG --color=auto --group-directories-first'
 alias cp='cp -i'
 alias mv='mv -i'
 alias rm='rm -i'
 alias grep='grep -n --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox}'
+#alias dysk='dysk -c label+default'
 # alias for release builds rust/go
 alias rustrel="RUSTFLAGS='-C link-arg=-s' cargo build --release"
 alias gorel='go build -ldflags "-s -w"'
+#alias python='python3'
 # alias for change directory
 alias cdgh='cd ~/gh'
 alias cdproj='cd ~/project'
+alias cdcpp='cd ~/project/cpp'
+alias cdrust='cd ~/project/rust'
+alias cdgo='cd ~/project/go'
+alias cdpy='cd ~/project/python'
+alias cddata='cd /Volumes/Data'
+# alias for eza
+alias e='eza'
+alias el='eza -l'
+alias et='eza -T'
+alias elt='eza -l -T'
+alias eg='eza -l --git'
+
 
 # create cmake and update compile_commands.json
 #_update_cmake() {
