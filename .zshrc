@@ -192,11 +192,11 @@ alias cdgo='cd ~/project/go'
 alias cdpy='cd ~/project/python'
 alias cddata='cd /Volumes/Data'
 # alias for eza
-alias e='eza'
-alias el='eza -l'
-alias et='eza -T'
-alias elt='eza -l -T'
-alias eg='eza -l --git'
+alias e='eza --icons=auto --color=auto'
+alias el='e -l'
+alias et='e -T'
+alias elt='e -l -T'
+alias eg='e -l --git'
 
 
 # create cmake and update compile_commands.json
