@@ -195,6 +195,7 @@ alias cddata='cd /Volumes/Data'
 alias e='eza --icons=auto --color=auto'
 alias el='e -l'
 alias et='e -T'
+alias et1='e -T -L 1'
 alias elt='e -l -T'
 alias eg='e -l --git'
 
