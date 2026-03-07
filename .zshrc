@@ -197,6 +197,7 @@ alias el='e -l'
 alias et='e -T'
 alias et1='e -T -L 1'
 alias elt='e -l -T'
+alias elt1='e -l -T -L 1'
 alias eg='e -l --git'
 
 
