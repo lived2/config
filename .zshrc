@@ -146,6 +146,11 @@ precmd_functions+=(_fix_cursor)
 export PATH=/opt/homebrew/bin:/opt/homebrew/opt/llvm/bin:$PATH:~/.local/bin:~/bin
 export EDITOR=nvim
 
+#zsh-completion
+#FPATH=/opt/homebrew/share/zsh-completions:$FPATH
+#autoload -Uz compinit
+#compinit
+
 # NVM
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -192,7 +197,7 @@ alias cdgo='cd ~/project/go'
 alias cdpy='cd ~/project/python'
 alias cddata='cd /Volumes/Data'
 # alias for eza
-alias e='eza --icons=auto --color=auto'
+alias e='eza --icons=auto --color=auto --group-directories-first'
 alias el='e -l'
 alias et='e -T'
 alias et1='e -T -L 1'
