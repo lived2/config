@@ -205,6 +205,9 @@ alias elt='e -l -T'
 alias elt1='e -l -T -L 1'
 alias eg='e -l --git'
 
+unsetopt SHARE_HISTORY         # Do not share history between all sessions
+unsetopt INC_APPEND_HISTORY    # Do not append every command to the file immediately
+setopt APPEND_HISTORY          # Append history only when the session exits
 
 # create cmake and update compile_commands.json
 #_update_cmake() {
