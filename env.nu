@@ -19,6 +19,7 @@
 
 alias vi = nvim
 $env.config.buffer_editor = "nvim"
+$env.config.history.sync_on_enter = false
 
 $env.EDITOR = "nvim"
 
