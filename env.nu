@@ -22,3 +22,5 @@ $env.config.buffer_editor = "nvim"
 
 $env.EDITOR = "nvim"
 
+alias cdwork = cd D:\workspace
+alias cdgh = cd D:\workspace\GitHub
