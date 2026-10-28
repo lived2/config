@@ -1,7 +1,3 @@
-clear
-# fastfetch
-fastfetch
-
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -29,7 +25,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
 
 # Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
+CASE_SENSITIVE="true"
 
 # Uncomment the following line to use hyphen-insensitive completion.
 # Case-sensitive completion must be off. _ and - will be interchangeable.
@@ -83,10 +79,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 #plugins=(git)
-plugins=(git
-    zsh-autosuggestions
-    zsh-syntax-highlighting
-)
+plugins=(git zsh-syntax-highlighting zsh-autosuggestions fasd)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -95,7 +88,8 @@ source $ZSH/oh-my-zsh.sh
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
-# export LANG=en_US.UTF-8
+#export LANG=en_US.UTF-8
+#export LANG=ko_KR.UTF-8
 
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
@@ -183,6 +177,7 @@ alias mv='/usr/local/bin/mvg -ig'
 # alias for release builds rust/go
 alias rustrel="RUSTFLAGS='-C link-arg=-s' cargo build --release"
 alias gorel='go build -ldflags "-s -w"'
+alias python='python3'
 alias ta='tmux attach'
 # alias for change directory
 # alias for change directory
@@ -190,13 +185,16 @@ alias cdgh='cd ~/gh'
 alias cdproj='cd ~/project'
 alias cdcpp='cd ~/project/cpp'
 alias cdrust='cd ~/project/rust'
+alias cdgo='cd ~/project/go'
+alias cdpy='cd ~/project/python'
+alias cdlua='cd ~/project/lua'
 alias cd18='cd /media/18tb/media'
 alias cd5='cd /media/5tb/media'
 alias cd2='cd /media/2tb/media'
 alias cd22='cd /media/2tb2/media'
 # alias for eza
-alias e='eza --icons=auto --color=auto --group-directories'
-alias ls='eza --icons=auto --color=auto'
+alias ls='eza --icons=auto --color=auto --group-directories-first'
+alias e='eza --icons=auto --color=auto --group-directories-first'
 alias el='e -l'
 alias et='e -T'
 alias et1='e -T -L 1'
@@ -204,11 +202,9 @@ alias elt='e -l -T'
 alias elt1='e -l -T -L 1'
 alias eg='e -l --git'
 
-export GALLIUM_DRIVER=d3d12
-
-export LANG=ko_KR.UTF-8
-
-#alias python='python3.11'
+unsetopt SHARE_HISTORY         # Do not share history between all sessions
+unsetopt INC_APPEND_HISTORY    # Do not append every command to the file immediately
+setopt APPEND_HISTORY          # Append history only when the session exits
 
 # create cmake and update compile_commands.json
 #_update_cmake() {
