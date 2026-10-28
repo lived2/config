@@ -232,7 +232,7 @@ setopt APPEND_HISTORY          # Append history only when the session exits
 #export NVIM_COC_LOG_LEVEL=debug && export NVIM_COC_LOG_FILE=/tmp/coc.log
 
 # print fastfetch in interactive shell(not login shell) or tmux
-if [[ ! -o login ]] || [[ -n $TMUX ]]; then
+if [[ ! -o login ]] || [ -n "$TMUX" ]; then
   if command -v fastfetch &>/dev/null; then
     fastfetch --pipe false
   fi
