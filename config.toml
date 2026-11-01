@@ -1,0 +1,4 @@
+tabs = false
+neovim-bin = '/opt/homebrew/bin/nvim'
+
+startup-message-capture = false
